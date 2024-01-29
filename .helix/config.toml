@@ -1,0 +1,4 @@
+[editor.lsp]
+auto-signature-help = true
+display-inlay-hints = false
+
