@@ -5,27 +5,36 @@
 <div id="title-view"></div>
 <script>
   import * as THREE from "three";
+  import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+  import {
+    createRenderer,
+    createScene,
+    addTitleText,
+  } from "../lib/TitleRenderer.ts";
+  import Font from "../lib/Font";
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
+  const w = container.clientWidth;
+  const h = container.clientHeight;
 
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    container.clientWidth / container.clientHeight,
-    0.1,
-    1000,
-  );
+  const renderer = createRenderer(container);
+  const [scene, camera] = createScene(w, h);
 
-  const renderer = new THREE.WebGLRenderer();
-  renderer.setSize(container.clientWidth, container.clientHeight);
-  container.appendChild(renderer.domElement);
+  const controls = new PointerLockControls(camera, container);
 
   const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff08 });
   const cube = new THREE.Mesh(geometry, material);
   scene.add(cube);
 
-  camera.position.z = 5;
+  const font = await Font.load("minecraft-ten-v2");
+
+  console.log(font);
+  await addTitleText(scene, "top", { font, type: "top" });
+  await addTitleText(scene, "small", { font, type: "small" });
+  await addTitleText(scene, "bottom", { font, type: "bottom" });
+
+  console.log(scene.children);
 
   function animate() {
     requestAnimationFrame(animate);
