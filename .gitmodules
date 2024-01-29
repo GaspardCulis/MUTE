@@ -1,0 +1,3 @@
+[submodule "public/title-fonts"]
+	path = public/title-fonts
+	url = https://github.com/ewanhowell5195/MinecraftTitleGenerator
