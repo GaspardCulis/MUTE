@@ -45,7 +45,7 @@ export default class Font {
         throw Error("No texture field");
       })();
 
-    return new Font(id, characters, textures, 44, -24);
+    return new Font(id, characters, textures, 44, 20);
   }
 
   getTextureURL(texture_id: string): string {
