@@ -19,6 +19,16 @@ export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
   return renderer;
 }
 
+export function computeTitleAspectRatio(title_group: THREE.Group): number {
+  let bounding_box = new THREE.Box3().setFromObject(title_group);
+  const size = bounding_box.getSize(new THREE.Vector3());
+
+  const title_h = size.y;
+  const title_w = size.x;
+  return  title_w / title_h;
+
+}
+
 export function createScene(
   width: number,
   height: number,

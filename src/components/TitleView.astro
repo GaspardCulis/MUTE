@@ -5,31 +5,19 @@
 <div id="title-view"></div>
 <script>
   import * as THREE from "three";
-  import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
   import {
+computeTitleAspectRatio,
     createRenderer,
     createScene,
     createTitleText,
   } from "../lib/TitleRenderer.ts";
   import Font from "../lib/Font";
 
-  const container = document.querySelector("#title-view") as HTMLDivElement;
-  const w = container.clientWidth;
-  const h = container.clientHeight;
-
-  const renderer = createRenderer(container);
-  const [scene, camera] = createScene(w, h);
-
-  const controls = new PointerLockControls(camera, container);
-
   const font = await Font.load("minecraft-ten-v2");
 
   const texture_loader = new THREE.TextureLoader();
 
-  console.log(font);
-
-  const title_group = new THREE.Group();
-  title_group.add(
+  const title_group = new THREE.Group().add(
     await createTitleText(
       [{ text: "minecraft", texture: "cracked" }],
       texture_loader,
@@ -56,23 +44,24 @@
     ),
   );
 
+  const container = document.querySelector("#title-view") as HTMLDivElement;
+
+  const aspect = computeTitleAspectRatio(title_group);
+
+  container.style.width = `${container.clientHeight * aspect}px`;
+
+  const w = container.clientWidth;
+  const h = container.clientHeight;
+
+  const renderer = createRenderer(container);
+  const [scene, camera] = createScene(w, h);
+
   scene.add(title_group);
 
-  console.log(scene.children);
-
-  function animate() {
-    requestAnimationFrame(animate);
-
-    // camera.pcsition.y = -150 + Math.sin(Date.now() * 0.001) * 200;
-    // camera.lookAt(new THREE.Vector3(0, 22, 0));
-
-    renderer.render(scene, camera);
-  }
-  animate();
+  renderer.render(scene, camera);
 </script>
 <style>
   #title-view {
-    width: 2000px;
     height: 600px;
 
     background-color: whitesmoke;
