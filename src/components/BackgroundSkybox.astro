@@ -41,7 +41,6 @@
     "/skyboxes/cherry-grove/skybox_5.png",
   ]);
 
-  console.log(texture);
   scene.background = texture;
 
   window.addEventListener("resize", (ev) => {
@@ -50,13 +49,19 @@
     camera.updateProjectionMatrix();
   });
 
+  const interval = 1 / 30;
   const clock = new THREE.Clock(true);
+  let delta = 0;
   function render() {
-    renderer.render(scene, camera);
-
-    camera.rotateY(-clock.getDelta() * 0.04);
-
     requestAnimationFrame(render);
+
+    delta += clock.getDelta();
+
+    if (delta > interval) {
+      camera.rotateY(-delta * 0.04);
+      renderer.render(scene, camera);
+      delta = delta % interval;
+    }
   }
   render();
 </script>
