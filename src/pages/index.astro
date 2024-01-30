@@ -1,22 +1,67 @@
 ---
 import TitleView from "../components/TitleView.astro";
+import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout title="Welcome to Astro.">
 	<main>
 		<TitleView />
+		<section id="editor">
+			<EditorPanel width={3} height={2}>
+				<h1>Fonts & textures</h1>
+			</EditorPanel>
+			<EditorPanel width={2} height={2}>
+				<h1>Top</h1>
+				<input id="top_text" type="text" placeholder="Top title text" />
+
+				<h1>Middle</h1>
+				<input id="middle_text" type="text" placeholder="Middle title text" />
+
+				<h1>Bottom</h1>
+				<input id="bottom_text" type="text" placeholder="Bottom title text" />
+			</EditorPanel>
+			<EditorPanel>jaaj3</EditorPanel>
+			<EditorPanel>jaaj4</EditorPanel>
+			<EditorPanel>jaaj5</EditorPanel>
+			<EditorPanel>jaaj6</EditorPanel>
+			<EditorPanel>jaaj7</EditorPanel>
+			<EditorPanel>jaaj8</EditorPanel>
+			<EditorPanel>jaaj9</EditorPanel>
+			<EditorPanel>jaaj10</EditorPanel>
+			<EditorPanel>jaaj11</EditorPanel>
+			<EditorPanel>jaaj12</EditorPanel>
+		</section>
 	</main>
 </Layout>
+<script>
+	import Editor from "../lib/Editor";
 
+	const top_text = document.querySelector("#top_text") as HTMLInputElement;
+	const middle_text = document.querySelector(
+		"#middle_text",
+	) as HTMLInputElement;
+	const bottom_text = document.querySelector(
+		"#bottom_text",
+	) as HTMLInputElement;
+</script>
 <style>
 	main {
 		margin: auto;
-		padding: 1rem;
+		padding-top: 3rem;
 		width: 1200px;
 		max-width: calc(100% - 2rem);
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
+	}
+
+	#editor {
+		display: grid;
+		gap: 2rem;
+
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+
+		margin-top: 6rem;
 	}
 </style>

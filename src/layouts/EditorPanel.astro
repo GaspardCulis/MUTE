@@ -1,0 +1,46 @@
+---
+export interface Props {
+  width?: number;
+  height?: number;
+}
+
+const { width, height } = Astro.props;
+---
+
+<div
+  class="panel"
+  style={`grid-column: span ${width || 1} / auto; grid-row: span ${
+    height || 1
+  } / auto;`}
+>
+  <slot />
+</div>
+
+<style>
+  .panel {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+
+    background-color: #4a494a;
+    outline: 4px solid #211c21;
+    border-block: 4px solid #5a595a;
+  }
+</style>
+<style is:global>
+  .panel h1 {
+    all: unset;
+    margin-bottom: 0.5rem;
+  }
+
+  .panel input {
+    all: unset;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-block: 0.6rem;
+    background-color: #313131;
+    outline: 4px solid #211c21;
+    border-top: 8px solid #212421;
+  }
+</style>

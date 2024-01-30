@@ -24,9 +24,18 @@ const { title } = Astro.props;
 	</body>
 </html>
 <style is:global>
+	@font-face {
+		font-family: "Minecraft Regular";
+		src: url("fonts/MinecraftRegular.otf") format("truetype");
+		font-weight: normal;
+		font-style: normal;
+	}
+
 	body,
 	html {
 		height: 100%;
 		margin: 0px;
+
+		font-family: Minecraft Regular;
 	}
 </style>
