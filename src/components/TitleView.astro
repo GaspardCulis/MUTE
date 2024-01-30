@@ -11,8 +11,14 @@
     createTitleText,
   } from "../lib/TitleRenderer.ts";
   import Font from "../lib/Font";
+  import Editor from "../lib/Editor";
 
+  const editor = Editor.get();
   const font = await Font.load("minecraft-ten-v2");
+
+  editor.variables["title.top"].on("updated", (v) => {
+    console.log(`New value: ${v}`);
+  });
 
   const texture_loader = new THREE.TextureLoader();
 
@@ -25,16 +31,16 @@
         type: "top",
       },
     ),
-    await createTitleText([{ text: "1.20", texture: "flat" }], texture_loader, {
-      font,
-      type: "small",
-    }),
     await createTitleText(
-      [
-        { text: "the", texture: "deep_dark" },
-        { text: "wild", texture: "mangrove" },
-        { text: "update", texture: "deep_dark" },
-      ],
+      [{ text: "update", texture: "flat" }],
+      texture_loader,
+      {
+        font,
+        type: "small",
+      },
+    ),
+    await createTitleText(
+      [{ text: "title editor", texture: "trails_and_tales" }],
       texture_loader,
       {
         font,

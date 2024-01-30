@@ -1,0 +1,50 @@
+---
+export interface Props {
+  id: string;
+  placeholder: string;
+  variableid: string;
+}
+
+const { id, placeholder, variableid: editor_variable_id } = Astro.props;
+---
+
+<div class="title-input-field">
+  <input
+    class="title-input"
+    id={id}
+    type="text"
+    placeholder={placeholder}
+    data-variable-id={editor_variable_id}
+  />
+</div>
+<script>
+  import Editor, { EditorVariable } from "../lib/Editor";
+
+  const editor = Editor.get();
+
+  const title_inputs = document.querySelectorAll(
+    ".title-input",
+  ) as NodeListOf<HTMLInputElement>;
+  for (let input of title_inputs) {
+    const id = input.id;
+    const variable_id = input.dataset.variableId;
+    // @ts-ignore
+    const variable: EditorVariable<string> = editor.variables[variable_id];
+    input.value = variable.get();
+
+    input.addEventListener("input", (_ev) => {
+      variable.set(input.value);
+    });
+  }
+</script>
+<style>
+  input {
+    all: unset;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-block: 0.6rem;
+    background-color: #313131;
+    outline: 4px solid #211c21;
+    border-top: 8px solid #212421;
+  }
+</style>

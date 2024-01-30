@@ -1,10 +1,10 @@
 import { EventEmitter } from "events";
 
-declare interface EditorVariable<T> {
+export declare interface EditorVariable<T> {
   on(event: "updated", listener: (new_value: T) => void): this;
 }
 
-class EditorVariable<T> extends EventEmitter {
+export class EditorVariable<T> extends EventEmitter {
   constructor(private value: T) {
     super();
   }

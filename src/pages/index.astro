@@ -1,4 +1,5 @@
 ---
+import TitleInput from "../components/TitleInput.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
@@ -13,13 +14,25 @@ import Layout from "../layouts/Layout.astro";
 			</EditorPanel>
 			<EditorPanel width={2} height={2}>
 				<h1>Top</h1>
-				<input id="top_text" type="text" placeholder="Top title text" />
+				<TitleInput
+					id="top_text_input"
+					placeholder="Top title text"
+					variableid="title.top"
+				/>
 
 				<h1>Middle</h1>
-				<input id="middle_text" type="text" placeholder="Middle title text" />
+				<TitleInput
+					id="middle_text_input"
+					placeholder="Middle title text"
+					variableid="title.middle"
+				/>
 
 				<h1>Bottom</h1>
-				<input id="bottom_text" type="text" placeholder="Bottom title text" />
+				<TitleInput
+					id="bottom_text_input"
+					placeholder="Bottom title text"
+					variableid="title.bottom"
+				/>
 			</EditorPanel>
 			<EditorPanel>jaaj3</EditorPanel>
 			<EditorPanel>jaaj4</EditorPanel>
@@ -38,22 +51,6 @@ import Layout from "../layouts/Layout.astro";
 	import Editor from "../lib/Editor";
 
 	const editor = Editor.get();
-
-	const top_text = document.querySelector("#top_text") as HTMLInputElement;
-	const middle_text = document.querySelector(
-		"#middle_text",
-	) as HTMLInputElement;
-	const bottom_text = document.querySelector(
-		"#bottom_text",
-	) as HTMLInputElement;
-
-	top_text.value = editor.variables["title.top"].get();
-	middle_text.value = editor.variables["title.middle"].get();
-	bottom_text.value = editor.variables["title.bottom"].get();
-
-	top_text.addEventListener("input", (ev) => {
-		editor.variables["title.top"].set(top_text.value);
-	});
 </script>
 <style>
 	main {
