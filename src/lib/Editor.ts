@@ -1,7 +1,7 @@
 import { EventEmitter } from "events";
 
 export declare interface EditorVariable<T> {
-  on(event: "updated", listener: (new_value: T) => void): this;
+  on(event: "changed", listener: (new_value: T) => void): this;
 }
 
 export class EditorVariable<T> extends EventEmitter {
@@ -15,7 +15,7 @@ export class EditorVariable<T> extends EventEmitter {
 
   set(new_value: T) {
     this.value = new_value;
-    this.emit("updated", new_value);
+    this.emit("changed", new_value);
   }
 }
 

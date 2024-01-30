@@ -16,38 +16,57 @@
   const editor = Editor.get();
   const font = await Font.load("minecraft-ten-v2");
 
-  editor.variables["title.top"].on("updated", (v) => {
-    console.log(`New value: ${v}`);
-  });
-
   const texture_loader = new THREE.TextureLoader();
 
-  const title_group = new THREE.Group().add(
-    await createTitleText(
-      [{ text: "minecraft", texture: "cracked" }],
+  async function generateTitle(scene: THREE.Scene): Promise<void> {
+    console.log("generating title");
+
+    scene.clear();
+
+    const top_group = await createTitleText(
+      [
+        {
+          text: editor.variables["title.top"].get().toLowerCase(),
+          texture: "cracked",
+        },
+      ],
       texture_loader,
       {
         font,
         type: "top",
       },
-    ),
-    await createTitleText(
-      [{ text: "update", texture: "flat" }],
+    );
+
+    const middle_group = await createTitleText(
+      [
+        {
+          text: editor.variables["title.middle"].get().toLowerCase(),
+          texture: "flat",
+        },
+      ],
       texture_loader,
       {
         font,
         type: "small",
       },
-    ),
-    await createTitleText(
-      [{ text: "title editor", texture: "trails_and_tales" }],
+    );
+
+    const bottom_group = await createTitleText(
+      [
+        {
+          text: editor.variables["title.bottom"].get().toLowerCase(),
+          texture: "trails_and_tales",
+        },
+      ],
       texture_loader,
       {
         font,
         type: "bottom",
       },
-    ),
-  );
+    );
+
+    scene.add(new THREE.Group().add(top_group, middle_group, bottom_group));
+  }
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
 
@@ -57,9 +76,26 @@
   const renderer = createRenderer(container);
   const [scene, camera] = createScene(w, h);
 
-  scene.add(title_group);
+  await generateTitle(scene);
 
-  renderer.render(scene, camera);
+  editor.variables["title.top"].on("changed", (_v) => generateTitle(scene));
+  editor.variables["title.middle"].on("changed", (_v) => generateTitle(scene));
+  editor.variables["title.bottom"].on("changed", (_v) => generateTitle(scene));
+
+  const interval = 1 / 30;
+  const clock = new THREE.Clock(true);
+  let delta = 0;
+  function render() {
+    requestAnimationFrame(render);
+
+    delta += clock.getDelta();
+
+    if (delta > interval) {
+      renderer.render(scene, camera);
+      delta = delta % interval;
+    }
+  }
+  render();
 </script>
 <style>
   #title-view {
