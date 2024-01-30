@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import fonts from "../../public/title-fonts/fonts.json";
 import type Font from "./Font";
+import type { FontTexture } from "./Font";
 
 export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
   const renderer = new THREE.WebGLRenderer();
@@ -15,11 +16,11 @@ export function createScene(
   height: number,
 ): [THREE.Scene, THREE.PerspectiveCamera] {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
+  const camera = new THREE.PerspectiveCamera(40, width / height, 1, 1000);
 
   camera.position.x = 0;
-  camera.position.y = -58;
-  camera.position.z = -100;
+  camera.position.y = -150;
+  camera.position.z = -300;
   camera.lookAt(new THREE.Vector3(0, 22, 0));
   camera.up.set(0, 1, 0);
   return [scene, camera];
@@ -34,6 +35,7 @@ export async function addTitleText(
   str: string,
   args: {
     font: Font;
+    texture: string;
     type?: "top" | "bottom" | "small";
     row?: number;
     scale?: Vec3;
@@ -41,7 +43,7 @@ export async function addTitleText(
   },
 ) {
   const texture = new THREE.TextureLoader().load(
-    args.font.getTextureURL("cracked"),
+    args.font.getTextureURL(args.texture),
   );
 
   texture.colorSpace = THREE.SRGBColorSpace;

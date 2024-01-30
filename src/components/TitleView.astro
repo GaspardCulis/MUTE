@@ -25,9 +25,16 @@
   const font = await Font.load("minecraft-ten-v2");
 
   console.log(font);
-  await addTitleText(scene, "minecraft", { font, type: "top" });
-  await addTitleText(scene, "the", { font, type: "small" });
-  await addTitleText(scene, "sex update", { font, type: "bottom" });
+  await addTitleText(scene, "minecraft", {
+    font,
+    texture: "cracked",
+    type: "top",
+  });
+  await addTitleText(scene, "the wild update", {
+    font,
+    texture: "deep_dark",
+    type: "bottom",
+  });
   // ;)
 
   console.log(scene.children);
