@@ -181,8 +181,11 @@ export async function addTitleText(
   if (style.row) {
     text_group.position.y += style.font.height * style.row;
   }
-
-  if (style.type === "bottom") {
+  if (style.type === "top") {
+    text_group.scale.setX(1.1);
+    text_group.scale.setY(1.1);
+    text_group.scale.setZ(1.1);
+  } else if (style.type === "bottom") {
     text_group.scale.setX(0.75);
     text_group.scale.setY(1.6);
     text_group.scale.setZ(0.75);
