@@ -12,6 +12,7 @@
   "dependencies": {
     "@astrojs/check": "^0.4.1",
     "astro": "^4.2.6",
+    "events": "^3.3.0",
     "three": "^0.160.1",
     "typescript": "^5.3.3"
   },
