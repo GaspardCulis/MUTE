@@ -24,11 +24,12 @@ export function createScene(
   height: number,
 ): [THREE.Scene, THREE.PerspectiveCamera] {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(40, width / height, 1, 1000);
+  const camera = new THREE.PerspectiveCamera(14, width / height, 1, 1000);
 
   camera.position.x = 0;
   camera.position.y = -150;
   camera.position.z = -300;
+  camera.zoom = 0.2;
   camera.lookAt(new THREE.Vector3(0, 22, 0));
   camera.up.set(0, 1, 0);
   return [scene, camera];
@@ -132,7 +133,7 @@ export async function addTitleText(
   scene: THREE.Scene,
   loader: THREE.TextureLoader,
   style: Style,
-) {
+): Promise<THREE.Group<THREE.Object3DEventMap>> {
   let width = 0;
   const cubes: THREE.Object3D[] = [];
   const text_group = new THREE.Group();
@@ -211,7 +212,12 @@ export async function addTitleText(
     );
   }
 
+  // Add some offset to center the text horizontally
+  text_group.position.y += 23;
+
   scene.add(text_group);
+
+  return text_group;
 }
 
 export async function renderTitleScene(

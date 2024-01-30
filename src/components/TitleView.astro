@@ -64,8 +64,8 @@
   function animate() {
     requestAnimationFrame(animate);
 
-    camera.position.y = -150 + Math.sin(Date.now() * 0.001) * 200;
-    camera.lookAt(new THREE.Vector3(0, 22, 0));
+    // camera.pcsition.y = -150 + Math.sin(Date.now() * 0.001) * 200;
+    // camera.lookAt(new THREE.Vector3(0, 22, 0));
 
     renderer.render(scene, camera);
   }
@@ -73,7 +73,8 @@
 </script>
 <style>
   #title-view {
-    height: 480px;
+    width: 2000px;
+    height: 600px;
 
     background-color: whitesmoke;
   }
