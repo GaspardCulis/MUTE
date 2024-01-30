@@ -1,8 +1,6 @@
 import * as THREE from "three";
-import fonts from "../../public/title-fonts/fonts.json";
 import type Font from "./Font";
-import type { FontCharacterCube, FontTexture } from "./Font";
-import type { number } from "astro/zod";
+import type { FontCharacterCube } from "./Font";
 
 type Style = {
   font: Font;
