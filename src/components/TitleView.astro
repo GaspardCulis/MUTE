@@ -37,6 +37,15 @@
     },
   );
   await addTitleText(
+    [{ text: "1.20", texture: "flat" }],
+    scene,
+    texture_loader,
+    {
+      font,
+      type: "small",
+    },
+  );
+  await addTitleText(
     [
       { text: "the", texture: "deep_dark" },
       { text: "wild", texture: "mangrove" },
@@ -54,6 +63,10 @@
 
   function animate() {
     requestAnimationFrame(animate);
+
+    camera.position.y = -150 + Math.sin(Date.now() * 0.001) * 200;
+    camera.lookAt(new THREE.Vector3(0, 22, 0));
+
     renderer.render(scene, camera);
   }
   animate();
