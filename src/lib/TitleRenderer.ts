@@ -1,7 +1,17 @@
 import * as THREE from "three";
 import fonts from "../../public/title-fonts/fonts.json";
 import type Font from "./Font";
-import type { FontTexture } from "./Font";
+import type { FontCharacterCube, FontTexture } from "./Font";
+import type { number } from "astro/zod";
+
+type Style = {
+  font: Font;
+  type?: "top" | "bottom" | "small";
+  row?: number;
+  scale?: Vec3;
+  rotation?: Vec3;
+  space_width?: number;
+};
 
 export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
   const renderer = new THREE.WebGLRenderer();
@@ -26,159 +36,181 @@ export function createScene(
   return [scene, camera];
 }
 
-async function loadTexture(path: string): Promise<THREE.CanvasTexture> {
-  throw Error("Not implemented");
-}
-
-export async function addTitleText(
-  scene: THREE.Scene,
-  str: string,
-  args: {
-    font: Font;
-    texture: string;
-    type?: "top" | "bottom" | "small";
-    row?: number;
-    scale?: Vec3;
-    rotation?: Vec3;
-  },
-) {
-  const texture = new THREE.TextureLoader().load(
-    args.font.getTextureURL(args.texture),
-  );
+async function loadTexture(
+  url: string,
+  loader: THREE.TextureLoader,
+): Promise<THREE.Texture> {
+  const texture = await loader.loadAsync(url);
 
   texture.colorSpace = THREE.SRGBColorSpace;
   texture.magFilter = THREE.NearestFilter;
   texture.minFilter = THREE.NearestFilter;
   texture.flipY = true;
 
-  const material = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true,
-    alphaTest: 0.01,
-  });
+  return texture;
+}
 
-  let width = 0;
-  const cubes = [];
-  const group = new THREE.Group();
-  for (const char of str) {
-    if (char === " ") {
-      width += 8;
-      continue;
+function applyUV(mesh: THREE.Mesh, char: FontCharacterCube) {
+  const indexes = {
+    north: 40,
+    east: 0,
+    south: 32,
+    west: 8,
+    up: 16,
+    down: 24,
+  };
+
+  for (const key of Object.keys(indexes)) {
+    // @ts-ignore
+    const face = char.faces[key] as Vec4 | undefined;
+    // @ts-ignore
+    const i = indexes[key] as number;
+    if (face) {
+      const uv = [
+        [face[0] / 16, 1 - face[1] / 16],
+        [face[2] / 16, 1 - face[1] / 16],
+        [face[0] / 16, 1 - face[3] / 16],
+        [face[2] / 16, 1 - face[3] / 16],
+      ];
+      mesh.geometry.attributes.uv.array.set(uv[0], i + 0);
+      mesh.geometry.attributes.uv.array.set(uv[1], i + 2);
+      mesh.geometry.attributes.uv.array.set(uv[2], i + 4);
+      mesh.geometry.attributes.uv.array.set(uv[3], i + 6);
+    } else {
+      mesh.geometry.attributes.uv.array.set([1, 1], i + 0);
+      mesh.geometry.attributes.uv.array.set([1, 1], i + 2);
+      mesh.geometry.attributes.uv.array.set([1, 1], i + 4);
+      mesh.geometry.attributes.uv.array.set([1, 1], i + 6);
     }
-    if (!args.font.characters[char]) continue;
-    let min = Infinity;
-    let max = -Infinity;
-    const character = new THREE.Group();
-    for (let cube of args.font.characters[char]) {
-      if (!cube.parsed) {
-        cube.parsed = true;
-        for (const [direction, uv] of Object.entries(cube.faces)) {
-          cube.faces[direction] = { uv };
-        }
+  }
+}
+
+function createCharMeshes(
+  char: string,
+  material: THREE.MeshBasicMaterial,
+  style: Style,
+): [THREE.Group, number, number] {
+  let min = Infinity;
+  let max = -Infinity;
+
+  const character = new THREE.Group();
+  for (let cube of style.font.characters[char]) {
+    min = Math.min(min, cube.from[0], cube.to[0]);
+    max = Math.max(max, cube.from[0], cube.to[0]);
+
+    if (style.type == "bottom") {
+      if (cube.to[2] > cube.from[2]) {
+        cube.to[2] += 20;
+      } else {
+        cube.from[2] += 20;
       }
+    }
 
-      cube = JSON.parse(JSON.stringify(cube));
-      min = Math.min(min, cube.from[0], cube.to[0]);
-      max = Math.max(max, cube.from[0], cube.to[0]);
-
-      if (args.type === "bottom") {
-        if (cube.to[2] > cube.from[2]) {
-          cube.to[2] += 20;
-        } else {
-          cube.from[2] += 20;
-        }
-      }
-
-      const geometry = new THREE.BoxGeometry(
+    const mesh = new THREE.Mesh(
+      new THREE.BoxGeometry(
         cube.to[0] - cube.from[0],
         cube.to[1] - cube.from[1],
         cube.to[2] - cube.from[2],
-      );
-      const mesh = new THREE.Mesh(geometry, material);
+      ),
+      material,
+    );
 
-      mesh.position.fromArray([
-        (cube.from[0] + cube.to[0]) / 2,
-        (cube.from[1] + cube.to[1]) / 2,
-        (cube.from[2] + cube.to[2]) / 2,
-      ]);
+    mesh.position.fromArray([
+      (cube.from[0] + cube.to[0]) / 2,
+      (cube.from[1] + cube.to[1]) / 2,
+      (cube.from[2] + cube.to[2]) / 2,
+    ]);
 
-      const indexes = {
-        north: 40,
-        east: 0,
-        south: 32,
-        west: 8,
-        up: 16,
-        down: 24,
-      };
+    applyUV(mesh, cube);
 
-      for (const key of Object.keys(indexes)) {
-        const face = cube.faces[key];
-        const i = indexes[key];
-        if (face) {
-          const uv = [
-            [face.uv[0] / 16, 1 - face.uv[1] / 16],
-            [face.uv[2] / 16, 1 - face.uv[1] / 16],
-            [face.uv[0] / 16, 1 - face.uv[3] / 16],
-            [face.uv[2] / 16, 1 - face.uv[3] / 16],
-          ];
-          mesh.geometry.attributes.uv.array.set(uv[0], i + 0);
-          mesh.geometry.attributes.uv.array.set(uv[1], i + 2);
-          mesh.geometry.attributes.uv.array.set(uv[2], i + 4);
-          mesh.geometry.attributes.uv.array.set(uv[3], i + 6);
-        } else {
-          mesh.geometry.attributes.uv.array.set([1, 1], i + 0);
-          mesh.geometry.attributes.uv.array.set([1, 1], i + 2);
-          mesh.geometry.attributes.uv.array.set([1, 1], i + 4);
-          mesh.geometry.attributes.uv.array.set([1, 1], i + 6);
-        }
+    character.add(mesh);
+  }
+
+  return [character, min, max];
+}
+
+export async function addTitleText(
+  text: { text: string; texture: string }[],
+  scene: THREE.Scene,
+  loader: THREE.TextureLoader,
+  style: Style,
+) {
+  let width = 0;
+  const cubes: THREE.Object3D[] = [];
+  const text_group = new THREE.Group();
+
+  for (const str of text) {
+    const texture = await loadTexture(
+      style.font.getTextureURL(str.texture),
+      loader,
+    );
+
+    const material = new THREE.MeshBasicMaterial({
+      map: texture,
+      transparent: true,
+      alphaTest: 0.01,
+    });
+
+    for (const char of str.text) {
+      if (char === " ") {
+        width += style.space_width || 8;
+        continue;
       }
-      character.add(mesh);
-      cubes.push(mesh);
+
+      if (!style.font.characters[char]) {
+        console.warn(
+          `Character '${char}' not found in font '${style.font.id}'`,
+        );
+        continue;
+      }
+
+      const [char_group, min, max] = createCharMeshes(char, material, style);
+      text_group.add(char_group);
+      cubes.push(...char_group.children);
+      for (const cube of char_group.children) {
+        cube.position.x -= width + max;
+      }
+      width += max - min;
     }
-    for (const cube of character.children) {
-      cube.position.x -= width + max;
-    }
-    group.add(character);
-    width += max - min;
   }
 
   for (const cube of cubes) {
     cube.position.x += width / 2;
   }
 
-  if (args.row) {
-    group.position.y += args.font.height * args.row;
+  if (style.row) {
+    text_group.position.y += style.font.height * style.row;
   }
 
-  if (args.type === "bottom") {
-    group.scale.setX(0.75);
-    group.scale.setY(1.6);
-    group.scale.setZ(0.75);
-    group.rotation.fromArray([-Math.PI / 2, 0, 0]);
-    group.position.z += args.font.height + 49;
-    group.position.y -= 25 - args.font.depth;
-  } else if (args.type === "small") {
-    group.scale.setX(0.35);
-    group.scale.setY(0.35);
-    group.scale.setZ(0.35);
-    group.position.y -= args.font.height * 0.35;
+  if (style.type === "bottom") {
+    text_group.scale.setX(0.75);
+    text_group.scale.setY(1.6);
+    text_group.scale.setZ(0.75);
+    text_group.rotation.fromArray([-Math.PI / 2, 0, 0]);
+    text_group.position.z += style.font.height + 49;
+    text_group.position.y -= 25 - style.font.depth;
+  } else if (style.type === "small") {
+    text_group.scale.setX(0.35);
+    text_group.scale.setY(0.35);
+    text_group.scale.setZ(0.35);
+    text_group.position.y -= style.font.height * 0.35;
   }
 
-  if (args.scale) {
-    group.scale.setX(group.scale.x * args.scale[0]);
-    group.scale.setY(group.scale.y * args.scale[1]);
-    group.scale.setZ(group.scale.z * args.scale[2]);
+  if (style.scale) {
+    text_group.scale.setX(text_group.scale.x * style.scale[0]);
+    text_group.scale.setY(text_group.scale.y * style.scale[1]);
+    text_group.scale.setZ(text_group.scale.z * style.scale[2]);
   }
 
-  if (args.rotation) {
-    const old = group.rotation.toArray();
-    group.rotation.fromArray(
+  if (style.rotation) {
+    const old = text_group.rotation.toArray();
+    text_group.rotation.fromArray(
       // @ts-ignore
-      args.rotation.map((e, i) => (e / 360) * (Math.PI * 2) + old[i]),
+      style.rotation.map((e, i) => (e / 360) * (Math.PI * 2) + old[i]),
     );
   }
 
-  scene.add(group);
+  scene.add(text_group);
 }
 
 export async function renderTitleScene(
@@ -188,117 +220,4 @@ export async function renderTitleScene(
   scaleFactor: number,
 ) {
   renderer.render(scene, camera);
-}
-
-export async function addTitleTextClean(
-  text: string,
-  type: "top" | "middle" | "bottom",
-  font: Font,
-  texture: THREE.Texture,
-  scene: THREE.Scene,
-) {
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.magFilter = THREE.NearestFilter;
-  texture.minFilter = THREE.NearestFilter;
-  texture.flipY = true;
-
-  const material = new THREE.MeshBasicMaterial({
-    map: texture,
-    transparent: true,
-    alphaTest: 0.01,
-  });
-
-  let width = 0;
-  const cubes = [];
-  const group = new THREE.Group();
-  for (const char of text) {
-    if (char == " ") {
-      width += 8;
-      continue;
-    }
-    if (!font.characters[char]) {
-      console.warn(`Can't get character '${char}' of font '${font.id}'`);
-      continue;
-    }
-
-    let min = Infinity;
-    let max = -Infinity;
-    const char_group = new THREE.Group();
-
-    for (let cube of font.characters[char]) {
-      if (type == "bottom") {
-        if (cube.to[2] > cube.from[2]) {
-          cube.to[2] += 20;
-        } else {
-          cube.from[2] += 20;
-        }
-      }
-
-      const geometry = new THREE.BoxGeometry(
-        cube.to[0] - cube.from[0],
-        cube.to[1] - cube.from[1],
-        cube.to[2] - cube.from[2],
-      );
-      const mesh = new THREE.Mesh(geometry, material);
-
-      mesh.position.fromArray([
-        (cube.from[0] + cube.to[0]) / 2,
-        (cube.from[1] + cube.to[1]) / 2,
-        (cube.from[2] + cube.to[2]) / 2,
-      ]);
-
-      mesh.position.fromArray([
-        (cube.from[0] + cube.to[0]) / 2,
-        (cube.from[1] + cube.to[1]) / 2,
-        (cube.from[2] + cube.to[2]) / 2,
-      ]);
-
-      const indexes = {
-        north: 40,
-        east: 0,
-        south: 32,
-        west: 8,
-        up: 16,
-        down: 24,
-      };
-
-      for (const key of Object.keys(indexes)) {
-        // @ts-ignore
-        const face = cube.faces[key];
-        // @ts-ignore
-        const i = indexes[key];
-        if (face) {
-          const uv = [
-            [face[0] / 16, 1 - face[1] / 16],
-            [face[2] / 16, 1 - face[1] / 16],
-            [face[0] / 16, 1 - face[3] / 16],
-            [face[2] / 16, 1 - face[3] / 16],
-          ];
-          mesh.geometry.attributes.array.set(uv[0], i + 0);
-          mesh.geometry.attributes.array.set(uv[1], i + 2);
-          mesh.geometry.attributes.array.set(uv[2], i + 4);
-          mesh.geometry.attributes.array.set(uv[3], i + 6);
-        } else {
-          mesh.geometry.attributes.array.set([1, 1], i + 0);
-          mesh.geometry.attributes.array.set([1, 1], i + 2);
-          mesh.geometry.attributes.array.set([1, 1], i + 4);
-          mesh.geometry.attributes.array.set([1, 1], i + 6);
-        }
-      }
-      char_group.add(mesh);
-      cubes.push(mesh);
-    }
-    for (const cube of char_group.children) {
-      cube.position.x -= width + max;
-    }
-    group.add(char_group);
-    width += max - min;
-  }
-  for (const cube of cubes) {
-    cube.position.x += width / 2;
-  }
-
-  scene.add(group);
-
-  console.log(font);
 }

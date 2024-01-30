@@ -24,18 +24,31 @@
 
   const font = await Font.load("minecraft-ten-v2");
 
+  const texture_loader = new THREE.TextureLoader();
+
   console.log(font);
-  await addTitleText(scene, "minecraft", {
-    font,
-    texture: "cracked",
-    type: "top",
-  });
-  await addTitleText(scene, "the wild update", {
-    font,
-    texture: "deep_dark",
-    type: "bottom",
-  });
-  // ;)
+  await addTitleText(
+    [{ text: "minecraft", texture: "cracked" }],
+    scene,
+    texture_loader,
+    {
+      font,
+      type: "top",
+    },
+  );
+  await addTitleText(
+    [
+      { text: "the", texture: "deep_dark" },
+      { text: "wild", texture: "mangrove" },
+      { text: "update", texture: "deep_dark" },
+    ],
+    scene,
+    texture_loader,
+    {
+      font,
+      type: "bottom",
+    },
+  );
 
   console.log(scene.children);
 

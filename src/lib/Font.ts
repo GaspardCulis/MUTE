@@ -1,6 +1,6 @@
 import { loadJson } from "./Utils";
 
-export type FontCharacter = {
+export type FontCharacterCube = {
   from: Vec3;
   to: Vec3;
   faces: {
@@ -11,7 +11,7 @@ export type FontCharacter = {
     up?: Vec4;
     down?: Vec4;
   };
-}[];
+};
 
 export type FontTexture = {
   name: string;
@@ -24,7 +24,7 @@ export default class Font {
 
   constructor(
     readonly id: string,
-    readonly characters: { [id: string]: FontCharacter },
+    readonly characters: { [id: string]: FontCharacterCube[] },
     readonly textures: { [id: string]: FontTexture },
     readonly height: number,
     readonly depth: number,
