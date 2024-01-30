@@ -1,4 +1,6 @@
 ---
+import BackgroundSkybox from "../components/BackgroundSkybox.astro";
+
 interface Props {
 	title: string;
 }
@@ -18,23 +20,13 @@ const { title } = Astro.props;
 	</head>
 	<body>
 		<slot />
+		<BackgroundSkybox />
 	</body>
 </html>
 <style is:global>
-	:root {
-		--accent: 136, 58, 234;
-		--accent-light: 224, 204, 250;
-		--accent-dark: 49, 10, 101;
-		--accent-gradient: linear-gradient(
-			45deg,
-			rgb(var(--accent)),
-			rgb(var(--accent-light)) 30%,
-			white 60%
-		);
-	}
+	body,
 	html {
-		font-family: system-ui, sans-serif;
-		background: #13151a;
-		background-size: 224px;
+		height: 100%;
+		margin: 0px;
 	}
 </style>

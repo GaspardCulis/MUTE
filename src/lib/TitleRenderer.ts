@@ -12,9 +12,9 @@ type Style = {
 };
 
 export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
-  const renderer = new THREE.WebGLRenderer();
+  const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setSize(container.clientWidth, container.clientHeight);
-  renderer.setClearColor(0xffffff, 1);
+  renderer.setClearColor(0xffffff, 0);
   container.appendChild(renderer.domElement);
   return renderer;
 }
@@ -25,8 +25,7 @@ export function computeTitleAspectRatio(title_group: THREE.Group): number {
 
   const title_h = size.y;
   const title_w = size.x;
-  return  title_w / title_h;
-
+  return title_w / title_h;
 }
 
 export function createScene(

@@ -6,7 +6,6 @@
 <script>
   import * as THREE from "three";
   import {
-computeTitleAspectRatio,
     createRenderer,
     createScene,
     createTitleText,
@@ -46,10 +45,6 @@ computeTitleAspectRatio,
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
 
-  const aspect = computeTitleAspectRatio(title_group);
-
-  container.style.width = `${container.clientHeight * aspect}px`;
-
   const w = container.clientWidth;
   const h = container.clientHeight;
 
@@ -62,8 +57,7 @@ computeTitleAspectRatio,
 </script>
 <style>
   #title-view {
-    height: 600px;
-
-    background-color: whitesmoke;
+    width: 100%;
+    height: 200px;
   }
 </style>

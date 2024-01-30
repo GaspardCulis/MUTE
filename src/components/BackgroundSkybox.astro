@@ -1,0 +1,62 @@
+---
+
+---
+
+<div id="background"></div>
+<style>
+  #background {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+
+    z-index: -1;
+  }
+</style>
+<script>
+  import * as THREE from "three";
+
+  const background = document.querySelector("#background") as HTMLDivElement;
+
+  const renderer = new THREE.WebGLRenderer();
+  renderer.setSize(background.clientWidth, background.clientHeight);
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(
+    90,
+    background.clientWidth / background.clientHeight,
+    1,
+    1000,
+  );
+
+  background.appendChild(renderer.domElement);
+
+  const loader = new THREE.CubeTextureLoader();
+  const texture = loader.load([
+    "/skyboxes/cherry-grove/skybox_0.png",
+    "/skyboxes/cherry-grove/skybox_1.png",
+    "/skyboxes/cherry-grove/skybox_2.png",
+    "/skyboxes/cherry-grove/skybox_3.png",
+    "/skyboxes/cherry-grove/skybox_4.png",
+    "/skyboxes/cherry-grove/skybox_5.png",
+  ]);
+
+  console.log(texture);
+  scene.background = texture;
+
+  window.addEventListener("resize", (ev) => {
+    renderer.setSize(background.clientWidth, background.clientHeight);
+    camera.aspect = background.clientWidth / background.clientHeight;
+    camera.updateProjectionMatrix();
+  });
+
+  const clock = new THREE.Clock(true);
+  function render() {
+    renderer.render(scene, camera);
+
+    camera.rotateY(-clock.getDelta() * 0.04);
+
+    requestAnimationFrame(render);
+  }
+  render();
+</script>
