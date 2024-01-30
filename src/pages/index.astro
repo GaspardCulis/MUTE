@@ -37,6 +37,8 @@ import Layout from "../layouts/Layout.astro";
 <script>
 	import Editor from "../lib/Editor";
 
+	const editor = Editor.get();
+
 	const top_text = document.querySelector("#top_text") as HTMLInputElement;
 	const middle_text = document.querySelector(
 		"#middle_text",
@@ -44,6 +46,14 @@ import Layout from "../layouts/Layout.astro";
 	const bottom_text = document.querySelector(
 		"#bottom_text",
 	) as HTMLInputElement;
+
+	top_text.value = editor.variables["title.top"].get();
+	middle_text.value = editor.variables["title.middle"].get();
+	bottom_text.value = editor.variables["title.bottom"].get();
+
+	top_text.addEventListener("input", (ev) => {
+		editor.variables["title.top"].set(top_text.value);
+	});
 </script>
 <style>
 	main {
