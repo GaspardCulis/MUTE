@@ -9,7 +9,7 @@
   import {
     createRenderer,
     createScene,
-    addTitleText,
+    createTitleText,
   } from "../lib/TitleRenderer.ts";
   import Font from "../lib/Font";
 
@@ -27,37 +27,36 @@
   const texture_loader = new THREE.TextureLoader();
 
   console.log(font);
-  await addTitleText(
-    [{ text: "minecraft", texture: "cracked" }],
-    scene,
-    texture_loader,
-    {
-      font,
-      type: "top",
-    },
-  );
-  await addTitleText(
-    [{ text: "1.20", texture: "flat" }],
-    scene,
-    texture_loader,
-    {
+
+  const title_group = new THREE.Group();
+  title_group.add(
+    await createTitleText(
+      [{ text: "minecraft", texture: "cracked" }],
+      texture_loader,
+      {
+        font,
+        type: "top",
+      },
+    ),
+    await createTitleText([{ text: "1.20", texture: "flat" }], texture_loader, {
       font,
       type: "small",
-    },
+    }),
+    await createTitleText(
+      [
+        { text: "the", texture: "deep_dark" },
+        { text: "wild", texture: "mangrove" },
+        { text: "update", texture: "deep_dark" },
+      ],
+      texture_loader,
+      {
+        font,
+        type: "bottom",
+      },
+    ),
   );
-  await addTitleText(
-    [
-      { text: "the", texture: "deep_dark" },
-      { text: "wild", texture: "mangrove" },
-      { text: "update", texture: "deep_dark" },
-    ],
-    scene,
-    texture_loader,
-    {
-      font,
-      type: "bottom",
-    },
-  );
+
+  scene.add(title_group);
 
   console.log(scene.children);
 

@@ -128,9 +128,8 @@ function createCharMeshes(
   return [character, min, max];
 }
 
-export async function addTitleText(
+export async function createTitleText(
   text: { text: string; texture: string }[],
-  scene: THREE.Scene,
   loader: THREE.TextureLoader,
   style: Style,
 ): Promise<THREE.Group<THREE.Object3DEventMap>> {
@@ -214,8 +213,6 @@ export async function addTitleText(
 
   // Add some offset to center the text horizontally
   text_group.position.y += 23;
-
-  scene.add(text_group);
 
   return text_group;
 }
