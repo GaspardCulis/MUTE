@@ -99,9 +99,9 @@ function createCharMeshes(
 
     if (style.type == "bottom") {
       if (cube.to[2] > cube.from[2]) {
-        cube.to[2] += 20;
+        cube.to[2] = 50;
       } else {
-        cube.from[2] += 20;
+        cube.from[2] = 50;
       }
     }
 
