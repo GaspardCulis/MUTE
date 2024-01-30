@@ -5,28 +5,21 @@ import type Font from "./Font";
 export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setClearColor(0xffffff, 1);
   container.appendChild(renderer.domElement);
-
   return renderer;
 }
 
 export function createScene(
   width: number,
   height: number,
-): [THREE.Scene, THREE.OrthographicCamera] {
+): [THREE.Scene, THREE.PerspectiveCamera] {
   const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(
-    -width / 2,
-    width / 2,
-    height / 2,
-    -height / 2,
-    1,
-    1000,
-  );
+  const camera = new THREE.PerspectiveCamera(75, width / height, 1, 1000);
 
   camera.position.x = 0;
-  camera.position.y = 22;
-  camera.position.z = -320;
+  camera.position.y = -58;
+  camera.position.z = -100;
   camera.lookAt(new THREE.Vector3(0, 22, 0));
   camera.up.set(0, 1, 0);
   return [scene, camera];
@@ -48,7 +41,7 @@ export async function addTitleText(
   },
 ) {
   const texture = new THREE.TextureLoader().load(
-    args.font.getTextureURL("crystal"),
+    args.font.getTextureURL("cracked"),
   );
 
   texture.colorSpace = THREE.SRGBColorSpace;
@@ -159,7 +152,7 @@ export async function addTitleText(
     group.scale.setX(0.75);
     group.scale.setY(1.6);
     group.scale.setZ(0.75);
-    group.rotation.fromArray([-Math.PI / 3, 0, 0]);
+    group.rotation.fromArray([-Math.PI / 2, 0, 0]);
     group.position.z += args.font.height + 49;
     group.position.y -= 25 - args.font.depth;
   } else if (args.type === "small") {

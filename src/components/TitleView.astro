@@ -22,24 +22,18 @@
 
   const controls = new PointerLockControls(camera, container);
 
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff08 });
-  const cube = new THREE.Mesh(geometry, material);
-  scene.add(cube);
-
   const font = await Font.load("minecraft-ten-v2");
 
   console.log(font);
-  await addTitleText(scene, "top", { font, type: "top" });
-  await addTitleText(scene, "small", { font, type: "small" });
-  await addTitleText(scene, "bottom", { font, type: "bottom" });
+  await addTitleText(scene, "minecraft", { font, type: "top" });
+  await addTitleText(scene, "the", { font, type: "small" });
+  await addTitleText(scene, "sex update", { font, type: "bottom" });
+  // ;)
 
   console.log(scene.children);
 
   function animate() {
     requestAnimationFrame(animate);
-    cube.rotation.x += 0.01;
-    cube.rotation.y += 0.01;
     renderer.render(scene, camera);
   }
   animate();
