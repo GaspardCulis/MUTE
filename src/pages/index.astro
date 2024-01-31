@@ -55,6 +55,8 @@ import Fonts from "../../public/title-fonts/fonts.json";
 	import Editor from "../lib/Editor";
 	import Font from "../lib/Font";
 
+	const editor = Editor.get();
+
 	const textures_list = document.querySelector(
 		"#textures-list",
 	) as HTMLDivElement;
@@ -63,6 +65,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 	) as NodeListOf<HTMLInputElement>;
 	radio_buttons.forEach((radio) => {
 		radio.addEventListener("input", () => {
+			editor.variables["selection.font"].set(radio.id);
 			updateTexturesList(radio.id);
 		});
 	});
@@ -74,23 +77,28 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		const font = await Font.load(font_id);
 
 		for (let [texture_id, _texture] of Object.entries(font.textures)) {
-			textures_list.innerHTML += `
-				<div>
-					<input type="radio" id="${texture_id}" name="textures" ${checked} />
-					<label for="${texture_id}">
-						<img 
-							height="44px"
-							draggable=false
-							src="/title-fonts/fonts/${font_id}/thumbnails/${texture_id}.png"
-						/>
-					</label>
-				</div>
+			let div = document.createElement("div");
+			div.innerHTML += `
+				<input type="radio" id="${texture_id}" name="textures" ${checked} />
+				<label for="${texture_id}">
+					<img 
+						height="44px"
+						draggable=false
+						src="/title-fonts/fonts/${font_id}/thumbnails/${texture_id}.png"
+					/>
+				</label>
 			`;
+
+			const input = div.querySelector("input") as HTMLInputElement;
+			input.addEventListener("input", () => {
+				editor.variables["selection.texture"].set(texture_id);
+			});
+
+			textures_list.appendChild(div);
+
 			checked = "";
 		}
 	}
-
-	const editor = Editor.get();
 </script>
 <style>
 	main {
