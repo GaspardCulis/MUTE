@@ -102,7 +102,9 @@ function createCharMeshes(
   let max = -Infinity;
 
   const character = new THREE.Group();
-  for (let cube of style.font.characters[char]) {
+  for (let char_cube of style.font.characters[char]) {
+    const cube = structuredClone(char_cube);
+
     min = Math.min(min, cube.from[0], cube.to[0]);
     max = Math.max(max, cube.from[0], cube.to[0]);
 
