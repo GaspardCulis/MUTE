@@ -14,56 +14,30 @@
   import Editor from "../lib/Editor";
 
   const editor = Editor.get();
-  const font = await Font.load("minecraft-ten-v2");
 
   const texture_loader = new THREE.TextureLoader();
 
   async function generateTitle(scene: THREE.Scene): Promise<void> {
     scene.clear();
 
-    const top_group = await createTitleText(
-      [
+    const title_group = new THREE.Group();
+    for (const row of ["top", "middle", "bottom"]) {
+      // @ts-ignore
+      const top_config = editor.variables[`title.${row}`].get() as StyledText;
+      const text_group = await createTitleText(
+        top_config.text,
+        texture_loader,
         {
-          text: editor.variables["title.top"].get().toLowerCase(),
-          texture: "cracked",
+          font: await Font.load(top_config.font),
+          // @ts-ignore
+          type: row,
         },
-      ],
-      texture_loader,
-      {
-        font,
-        type: "top",
-      },
-    );
+      );
 
-    const middle_group = await createTitleText(
-      [
-        {
-          text: editor.variables["title.middle"].get().toLowerCase(),
-          texture: "flat",
-        },
-      ],
-      texture_loader,
-      {
-        font,
-        type: "small",
-      },
-    );
+      title_group.add(text_group);
+    }
 
-    const bottom_group = await createTitleText(
-      [
-        {
-          text: editor.variables["title.bottom"].get().toLowerCase(),
-          texture: "trails_and_tales",
-        },
-      ],
-      texture_loader,
-      {
-        font,
-        type: "bottom",
-      },
-    );
-
-    scene.add(new THREE.Group().add(top_group, middle_group, bottom_group));
+    scene.add(title_group);
   }
 
   const container = document.querySelector("#title-view") as HTMLDivElement;

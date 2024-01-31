@@ -26,11 +26,22 @@ const { placeholder, variableid: editor_variable_id } = Astro.props;
   for (let input of title_inputs) {
     const variable_id = input.dataset.variableId;
     // @ts-ignore
-    const variable: EditorVariable<string> = editor.variables[variable_id];
-    input.value = variable.get();
+    const variable: EditorVariable<StyledText> = editor.variables[variable_id];
+    input.value = variable
+      .get()
+      .text.map((t) => t.text)
+      .join();
 
     input.addEventListener("input", (_ev) => {
-      variable.set(input.value);
+      variable.set({
+        font: editor.variables["selection.font"].get(),
+        text: [
+          {
+            text: input.value,
+            texture: editor.variables["selection.texture"].get(),
+          },
+        ],
+      });
     });
   }
 </script>

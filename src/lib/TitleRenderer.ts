@@ -4,7 +4,7 @@ import type { FontCharacterCube } from "./Font";
 
 type Style = {
   font: Font;
-  type?: "top" | "bottom" | "small";
+  type?: "top" | "bottom" | "middle";
   row?: number;
   scale?: Vec3;
   rotation?: Vec3;
@@ -160,7 +160,7 @@ export async function createTitleText(
       alphaTest: 0.01,
     });
 
-    for (const char of str.text) {
+    for (const char of str.text.toLowerCase()) {
       if (char === " ") {
         width += style.space_width || 8;
         continue;
@@ -201,7 +201,7 @@ export async function createTitleText(
     text_group.rotation.fromArray([-Math.PI / 2, 0, 0]);
     text_group.position.z += style.font.height + 49;
     text_group.position.y -= 25 - style.font.depth;
-  } else if (style.type === "small") {
+  } else if (style.type === "middle") {
     text_group.scale.setX(0.35);
     text_group.scale.setY(0.35);
     text_group.scale.setZ(0.35);
