@@ -1,0 +1,62 @@
+---
+export interface Props {
+  id: string;
+  group: string;
+}
+
+const { id, group } = Astro.props;
+---
+
+<div class="padding">
+  <div class="outline">
+    <input type="radio" id={id} name={group} />
+    <label for={id}><slot /></label>
+  </div>
+</div>
+<style>
+  .padding {
+    margin-inline: 2px;
+  }
+
+  .outline {
+    outline: 4px solid #211c21;
+    border-bottom: 8px solid #5a595a;
+  }
+
+  .padding:has(input[type="radio"]:checked) {
+    padding-top: 8px;
+  }
+
+  .outline:has(input[type="radio"]:checked) {
+    border-bottom: none;
+  }
+
+  label {
+    text-align: center;
+    user-select: none;
+  }
+
+  input[type="radio"] {
+    display: none;
+    outline: 4px solid red;
+  }
+
+  input[type="radio"] + label {
+    width: 100%;
+    margin: 4px;
+
+    display: inline-block;
+    width: 200px;
+    height: 70px;
+    background-color: #ced2d6;
+    outline: 4px solid #e6e3e6;
+    cursor: pointer;
+    color: black;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #3a8529;
+    color: white;
+    outline: 4px solid #639e52;
+  }
+</style>

@@ -1,4 +1,5 @@
 ---
+import RadioButton from "../components/editor/RadioButton.astro";
 import TextInput from "../components/editor/TextInput.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
@@ -11,6 +12,11 @@ import Layout from "../layouts/Layout.astro";
 		<section id="editor">
 			<EditorPanel width={3} height={2}>
 				<h1>Fonts & textures</h1>
+				<div class="hbox wrap">
+					<RadioButton id="jaaj1" group="group1" ><p>Survival</p></RadioButton>
+					<RadioButton id="jaaj2" group="group1" ><p>Creative</p></RadioButton>
+					<RadioButton id="jaaj3" group="group1" ><p>Adventure</p></RadioButton>
+				</div>
 			</EditorPanel>
 			<EditorPanel width={2} height={2}>
 				<h1>Top</h1>
@@ -58,5 +64,13 @@ import Layout from "../layouts/Layout.astro";
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
 		margin-top: 6rem;
+	}
+
+	.hbox {
+		display: flex;
+	}
+
+	.wrap {
+		flex-wrap: wrap;
 	}
 </style>
