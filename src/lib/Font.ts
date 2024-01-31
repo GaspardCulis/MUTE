@@ -20,7 +20,7 @@ export type FontTexture = {
 };
 
 export default class Font {
-  static FONTS_PATH = "/public/title-fonts/fonts";
+  static FONTS_PATH = "/title-fonts/fonts";
 
   constructor(
     readonly id: string,
