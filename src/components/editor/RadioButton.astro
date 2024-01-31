@@ -15,7 +15,9 @@ const { id, group } = Astro.props;
 </div>
 <style>
   .padding {
+    min-height: 70px;
     margin-inline: 2px;
+    margin-bottom: 4px;
   }
 
   .outline {
@@ -43,11 +45,9 @@ const { id, group } = Astro.props;
 
   input[type="radio"] + label {
     width: 100%;
-    margin: 4px;
+    margin-block: 4px;
 
     display: inline-block;
-    width: 200px;
-    height: 70px;
     background-color: #ced2d6;
     outline: 4px solid #e6e3e6;
     cursor: pointer;

@@ -4,6 +4,8 @@ import TextInput from "../components/editor/TextInput.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
+
+import Fonts from "../../public/title-fonts/fonts.json";
 ---
 
 <Layout title="Welcome to Astro.">
@@ -11,14 +13,6 @@ import Layout from "../layouts/Layout.astro";
 		<TitleView />
 		<section id="editor">
 			<EditorPanel width={3} height={2}>
-				<h1>Fonts & textures</h1>
-				<div class="hbox wrap">
-					<RadioButton id="jaaj1" group="group1" ><p>Survival</p></RadioButton>
-					<RadioButton id="jaaj2" group="group1" ><p>Creative</p></RadioButton>
-					<RadioButton id="jaaj3" group="group1" ><p>Adventure</p></RadioButton>
-				</div>
-			</EditorPanel>
-			<EditorPanel width={2} height={2}>
 				<h1>Top</h1>
 				<TextInput placeholder="Top title text" variableid="title.top" />
 
@@ -28,8 +22,26 @@ import Layout from "../layouts/Layout.astro";
 				<h1>Bottom</h1>
 				<TextInput placeholder="Bottom title text" variableid="title.bottom" />
 			</EditorPanel>
-			<EditorPanel>jaaj3</EditorPanel>
-			<EditorPanel>jaaj4</EditorPanel>
+			<EditorPanel width={2} height={2}>
+				<h1>Save</h1>
+			</EditorPanel>
+			<EditorPanel width={4} height={4}>
+				<h1>Fonts & textures</h1>
+				<div class="fonts-container">
+					{
+						Fonts.map((font) => (
+							<RadioButton id={font.id} group="group1">
+								<img
+									height="40px"
+									style="padding-block: 8px;"
+									src={`/title-fonts/fonts/${font.id}/thumbnails/flat.png`}
+								/>
+							</RadioButton>
+						))
+					}
+				</div>
+			</EditorPanel>
+			<EditorPanel width={1} height={1}>jaaj4</EditorPanel>
 			<EditorPanel>jaaj5</EditorPanel>
 			<EditorPanel>jaaj6</EditorPanel>
 			<EditorPanel>jaaj7</EditorPanel>
@@ -66,11 +78,9 @@ import Layout from "../layouts/Layout.astro";
 		margin-top: 6rem;
 	}
 
-	.hbox {
-		display: flex;
-	}
+	.fonts-container {
+		display: grid;
 
-	.wrap {
-		flex-wrap: wrap;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 	}
 </style>
