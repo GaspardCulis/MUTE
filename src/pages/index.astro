@@ -26,11 +26,11 @@ import Fonts from "../../public/title-fonts/fonts.json";
 				<h1>Save</h1>
 			</EditorPanel>
 			<EditorPanel width={4} height={4}>
-				<h1>Fonts & textures</h1>
-				<div class="fonts-container">
+				<h1>Fonts</h1>
+				<div id="fonts-list">
 					{
 						Fonts.map((font) => (
-							<RadioButton id={font.id} group="group1">
+							<RadioButton id={font.id} group="fonts">
 								<img
 									height="40px"
 									style="padding-block: 8px; pointer-events: none;"
@@ -41,13 +41,46 @@ import Fonts from "../../public/title-fonts/fonts.json";
 					}
 				</div>
 			</EditorPanel>
-			<EditorPanel width={1} height={4}>jaaj4</EditorPanel>
+			<EditorPanel width={1} height={4}>
+				<h1>Textures</h1>
+				<div id="textures-list-container">
+					<div id="textures-list"></div>
+				</div>
+			</EditorPanel>
 			<EditorPanel width={5}>jaaj5</EditorPanel>
 		</section>
 	</main>
 </Layout>
 <script>
 	import Editor from "../lib/Editor";
+	import Font from "../lib/Font";
+
+	const textures_list = document.querySelector(
+		"#textures-list",
+	) as HTMLDivElement;
+	const radio_buttons = document.querySelectorAll(
+		"input[type=radio][name=fonts]",
+	) as NodeListOf<HTMLInputElement>;
+	radio_buttons.forEach((radio) => {
+		radio.addEventListener("input", () => {
+			updateTexturesList(radio.id);
+		});
+	});
+
+	async function updateTexturesList(font_id: string) {
+		textures_list.innerHTML = "";
+		const font = await Font.load(font_id);
+		for (let [texture_id, texture] of Object.entries(font.textures)) {
+			textures_list.innerHTML += `
+				<div>
+					<img 
+						height="44px"
+						src="/title-fonts/fonts/${font_id}/thumbnails/${texture_id}.png"
+					/>
+				</div>
+			`;
+		}
+	}
 
 	const editor = Editor.get();
 </script>
@@ -71,9 +104,44 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		margin-top: 6rem;
 	}
 
-	.fonts-container {
+	#fonts-list {
 		display: grid;
 
 		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	}
+
+	#textures-list-container {
+		position: relative;
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	#textures-list-container::-webkit-scrollbar {
+		width: 12px;
+	}
+
+	#textures-list-container::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	#textures-list-container::-webkit-scrollbar-thumb {
+		background-color: #ced2d6;
+		border-block: 2px solid #e6e3e6;
+		outline: 2px solid #211c21;
+	}
+
+	#textures-list {
+		position: absolute;
+		top: 4px;
+		left: 0;
+		right: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		width: 100%;
+
+		overflow-y: hidden;
 	}
 </style>
