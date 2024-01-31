@@ -26,6 +26,9 @@ export default class Editor {
     "title.top": new EditorVariable("Minecraft"),
     "title.middle": new EditorVariable("Update"),
     "title.bottom": new EditorVariable("Title Editor"),
+
+    "selection.font": new EditorVariable("Title Editor"),
+    "selection.texture": new EditorVariable("Title Editor"),
   };
 
   private constructor() {}
