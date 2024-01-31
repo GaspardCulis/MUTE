@@ -19,8 +19,6 @@
   const texture_loader = new THREE.TextureLoader();
 
   async function generateTitle(scene: THREE.Scene): Promise<void> {
-    console.log("generating title");
-
     scene.clear();
 
     const top_group = await createTitleText(
