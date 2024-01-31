@@ -30,7 +30,11 @@ import Fonts from "../../public/title-fonts/fonts.json";
 				<div id="fonts-list">
 					{
 						Fonts.map((font) => (
-							<RadioButton id={font.id} group="fonts">
+							<RadioButton
+								id={font.id}
+								group="fonts"
+								checked={font.id == "minecraft-ten"}
+							>
 								<img
 									height="40px"
 									style="padding-block: 8px; pointer-events: none;"
@@ -99,6 +103,8 @@ import Fonts from "../../public/title-fonts/fonts.json";
 			checked = "";
 		}
 	}
+
+	updateTexturesList("minecraft-ten");
 </script>
 <style>
 	main {
