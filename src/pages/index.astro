@@ -1,5 +1,5 @@
 ---
-import TitleInput from "../components/TitleInput.astro";
+import TextInput from "../components/editor/TextInput.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
@@ -14,25 +14,13 @@ import Layout from "../layouts/Layout.astro";
 			</EditorPanel>
 			<EditorPanel width={2} height={2}>
 				<h1>Top</h1>
-				<TitleInput
-					id="top_text_input"
-					placeholder="Top title text"
-					variableid="title.top"
-				/>
+				<TextInput placeholder="Top title text" variableid="title.top" />
 
 				<h1>Middle</h1>
-				<TitleInput
-					id="middle_text_input"
-					placeholder="Middle title text"
-					variableid="title.middle"
-				/>
+				<TextInput placeholder="Middle title text" variableid="title.middle" />
 
 				<h1>Bottom</h1>
-				<TitleInput
-					id="bottom_text_input"
-					placeholder="Bottom title text"
-					variableid="title.bottom"
-				/>
+				<TextInput placeholder="Bottom title text" variableid="title.bottom" />
 			</EditorPanel>
 			<EditorPanel>jaaj3</EditorPanel>
 			<EditorPanel>jaaj4</EditorPanel>
