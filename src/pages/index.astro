@@ -33,7 +33,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 							<RadioButton id={font.id} group="group1">
 								<img
 									height="40px"
-									style="padding-block: 8px;"
+									style="padding-block: 8px; pointer-events: none;"
 									src={`/title-fonts/fonts/${font.id}/thumbnails/flat.png`}
 								/>
 							</RadioButton>
@@ -54,7 +54,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 <style>
 	main {
 		margin: auto;
-		padding-top: 3rem;
+		padding-block: 3rem;
 		width: 1200px;
 		max-width: calc(100% - 2rem);
 		color: white;
