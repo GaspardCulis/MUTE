@@ -49,7 +49,9 @@ export default class Editor {
 
       for (const [key, value] of Object.entries(this._instance.variables)) {
         value.on("changed", (new_value) => {
-          console.debug(`[UPDATE] ${key} = ` + JSON.stringify(new_value));
+          console.debug(
+            `Editor: "${key}" updated to ` + JSON.stringify(new_value),
+          );
         });
       }
     }
