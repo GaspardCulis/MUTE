@@ -28,6 +28,7 @@ const { row_id, column_index, selected } = Astro.props;
     row_id: string = "";
     column_index: number = 0;
     selected: boolean = false;
+    dirty_font: boolean = false;
 
     constructor() {
       super();
@@ -68,7 +69,7 @@ const { row_id, column_index, selected } = Astro.props;
           const new_row_text = row_text_var.get();
           new_row_text.text.push({
             text: "",
-            texture: editor.variables["selection.texture"].get(),
+            texture: row_text_var.get().text[0].texture,
           });
           row_text_var.set(new_row_text);
         } else {
@@ -110,11 +111,21 @@ const { row_id, column_index, selected } = Astro.props;
         update_selected_state,
       );
 
+      editor.variables["selection.font"].on("changed", () => {
+        if (editor.variables["selection.title_row"].get() == this.row_id) {
+          this.dirty_font = true;
+        }
+      });
+
       editor.variables["selection.texture"].on("changed", (new_texture) => {
-        if (!this.selected) return;
-        const new_row_text = row_text_var.get();
-        new_row_text.text[this.column_index].texture = new_texture;
-        row_text_var.set(new_row_text);
+        if (editor.variables["selection.title_row"].get() == this.row_id) {
+          if (this.selected || this.dirty_font) {
+            const new_row_text = row_text_var.get();
+            new_row_text.text[this.column_index].texture = new_texture;
+            row_text_var.set(new_row_text);
+            this.dirty_font = false;
+          }
+        }
       });
     }
 
