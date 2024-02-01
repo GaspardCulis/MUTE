@@ -108,8 +108,6 @@ const { row_id, column_index, selected } = Astro.props;
         this.updateSelectedState,
       );
 
-      editor.variables["selection.font"].on("changed", this.updateDirtyState);
-
       editor.variables["selection.texture"].on("changed", this.updateTexture);
     }
 
@@ -125,21 +123,12 @@ const { row_id, column_index, selected } = Astro.props;
       }
     };
 
-    public updateDirtyState = () => {
-      if (editor.variables["selection.title_row"].get() == this.row_id) {
-        this.dirty_font = true;
-      }
-    };
-
     public updateTexture = (new_texture: string) => {
-      if (editor.variables["selection.title_row"].get() == this.row_id) {
-        if (this.selected || this.dirty_font) {
-          const new_row_text = this.row_text_var.get();
-          new_row_text.text[this.column_index].texture = new_texture;
-          this.row_text_var.set(new_row_text);
-          this.dirty_font = false;
-        }
-      }
+      if (!this.selected) return;
+      const new_row_text = this.row_text_var.get();
+      new_row_text.text[this.column_index].texture = new_texture;
+      this.row_text_var.set(new_row_text);
+      this.dirty_font = false;
     };
 
     disconnectedCallback() {
@@ -156,8 +145,6 @@ const { row_id, column_index, selected } = Astro.props;
         "changed",
         this.updateSelectedState,
       );
-
-      editor.variables["selection.font"].off("changed", this.updateDirtyState);
 
       editor.variables["selection.texture"].off("changed", this.updateTexture);
     }
