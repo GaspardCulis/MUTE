@@ -28,6 +28,10 @@ const { row_id, column_index, selected } = Astro.props;
     row_id: string = "";
     column_index: number = 0;
     selected: boolean = false;
+    // @ts-ignore
+    input_element: HTMLInputElement;
+    // @ts-ignore
+    row_text_var: EditorVariable<StyledText>;
     dirty_font: boolean = false;
 
     constructor() {
@@ -38,106 +42,123 @@ const { row_id, column_index, selected } = Astro.props;
       this.row_id = this.dataset.rowId as string;
       this.column_index = parseInt(this.dataset.columnIndex as string);
       this.selected = this.dataset.selected === "true";
-
-      let input_element = this.querySelector("input") as HTMLInputElement;
+      this.input_element = this.querySelector("input") as HTMLInputElement;
+      // @ts-ignore
+      this.row_text_var = editor.variables[
+        this.row_id
+      ] as EditorVariable<StyledText>;
       let dynamically_generated = false;
 
-      if (input_element === null) {
+      if (this.input_element === null) {
         dynamically_generated = true;
 
-        input_element = document.createElement("input");
+        this.input_element = document.createElement("input");
 
         // Input element initialisation
-        input_element.type = "text";
-        input_element.classList.add("text_edit");
-        input_element.placeholder = "Type some text...";
-        this.appendChild(input_element);
+        this.input_element.type = "text";
+        this.input_element.classList.add("text_edit");
+        this.input_element.placeholder = "Type some text...";
+        this.appendChild(this.input_element);
       }
 
       console.debug(
         `TextEdit: Instanciated new TextEdit with row_id: ${this.row_id} and column_index: ${this.column_index}`,
       );
 
-      // @ts-ignore
-      const row_text_var = editor.variables[
-        this.row_id
-      ] as EditorVariable<StyledText>;
-
-      const length = row_text_var.get().text.length;
+      const length = this.row_text_var.get().text.length;
       if (length >= this.column_index && dynamically_generated) {
         if (length === this.column_index) {
-          const new_row_text = row_text_var.get();
+          const new_row_text = this.row_text_var.get();
           new_row_text.text.push({
             text: "",
-            texture: row_text_var.get().text[0].texture,
+            texture: this.row_text_var.get().text[0].texture,
           });
-          row_text_var.set(new_row_text);
+          this.row_text_var.set(new_row_text);
         } else {
           throw Error("Styled text elements messesd up");
         }
       }
 
-      input_element.value = row_text_var.get().text[this.column_index].text;
+      this.input_element.value =
+        this.row_text_var.get().text[this.column_index].text;
 
-      input_element.addEventListener("input", () => {
-        const new_row_text = row_text_var.get();
-        new_row_text.text[this.column_index].text = input_element.value;
-        row_text_var.set(new_row_text);
+      this.input_element.addEventListener("input", () => {
+        const new_row_text = this.row_text_var.get();
+        new_row_text.text[this.column_index].text = this.input_element.value;
+        this.row_text_var.set(new_row_text);
       });
 
-      input_element.addEventListener("focus", () => {
+      this.input_element.addEventListener("focus", () => {
         editor.variables["selection.title_row"].set(this.row_id);
         editor.variables["selection.title_column_index"].set(this.column_index);
       });
 
-      const update_selected_state = () => {
-        this.selected =
-          editor.variables["selection.title_row"].get() === this.row_id &&
-          editor.variables["selection.title_column_index"].get() ===
-            this.column_index;
-        if (this.selected) {
-          input_element.classList.add("selected");
-        } else {
-          input_element.classList.remove("selected");
-        }
-      };
-
       editor.variables["selection.title_row"].on(
         "changed",
-        update_selected_state,
+        this.updateSelectedState,
       );
       editor.variables["selection.title_column_index"].on(
         "changed",
-        update_selected_state,
+        this.updateSelectedState,
       );
 
-      editor.variables["selection.font"].on("changed", () => {
-        if (editor.variables["selection.title_row"].get() == this.row_id) {
-          this.dirty_font = true;
-        }
-      });
+      editor.variables["selection.font"].on("changed", this.updateDirtyState);
 
-      editor.variables["selection.texture"].on("changed", (new_texture) => {
-        if (editor.variables["selection.title_row"].get() == this.row_id) {
-          if (this.selected || this.dirty_font) {
-            const new_row_text = row_text_var.get();
-            new_row_text.text[this.column_index].texture = new_texture;
-            row_text_var.set(new_row_text);
-            this.dirty_font = false;
-          }
-        }
-      });
+      editor.variables["selection.texture"].on("changed", this.updateTexture);
     }
 
-    disconnectedCallback() {
-      // @ts-ignore
-      const row_text_var = editor.variables[
-        this.row_id
-      ] as EditorVariable<StyledText>;
+    public updateSelectedState = () => {
+      this.selected =
+        editor.variables["selection.title_row"].get() === this.row_id &&
+        editor.variables["selection.title_column_index"].get() ===
+          this.column_index;
+      if (this.selected) {
+        this.input_element.classList.add("selected");
+      } else {
+        this.input_element.classList.remove("selected");
+      }
+    };
 
-      const new_text = row_text_var.get();
+    public updateDirtyState = () => {
+      if (editor.variables["selection.title_row"].get() == this.row_id) {
+        this.dirty_font = true;
+      }
+    };
+
+    public updateTexture = (new_texture: string) => {
+      if (editor.variables["selection.title_row"].get() == this.row_id) {
+        if (this.selected || this.dirty_font) {
+          console.debug(
+            `TextEdit: CACA new TextEdit with row_id: ${this.row_id} and column_index: ${this.column_index}`,
+          );
+
+          const new_row_text = this.row_text_var.get();
+          new_row_text.text[this.column_index].texture = new_texture;
+          this.row_text_var.set(new_row_text);
+          this.dirty_font = false;
+        }
+      }
+    };
+
+    disconnectedCallback() {
+      const new_text = this.row_text_var.get();
       new_text.text.splice(this.column_index, 1);
-      row_text_var.set(new_text);
+      this.row_text_var.set(new_text);
+
+      // Remove event listeners
+      editor.variables["selection.title_row"].off(
+        "changed",
+        this.updateSelectedState,
+      );
+      editor.variables["selection.title_column_index"].off(
+        "changed",
+        this.updateSelectedState,
+      );
+
+      editor.variables["selection.font"].off("changed", this.updateDirtyState);
+
+      editor.variables["selection.texture"].off("changed", this.updateTexture);
+      console.log("KILLMES");
     }
   }
 
