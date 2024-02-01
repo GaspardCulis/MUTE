@@ -7,6 +7,7 @@ export declare interface EditorVariable<T> {
 export class EditorVariable<T> extends EventEmitter {
   constructor(private value: T) {
     super();
+    this.setMaxListeners(20);
   }
 
   get(): T {
