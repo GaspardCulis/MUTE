@@ -1,4 +1,4 @@
-export async function loadJson(url: string | URL | Request): any {
+export async function loadJson(url: string | URL | Request): Promise<any> {
   const response = await fetch(url);
   if (response.status != 200) {
     throw Error("Server returned status code " + response.status);
