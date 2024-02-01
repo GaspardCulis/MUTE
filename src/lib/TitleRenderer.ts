@@ -33,13 +33,12 @@ export function createScene(
   height: number,
 ): [THREE.Scene, THREE.PerspectiveCamera] {
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(14, width / height, 1, 1000);
+  const camera = new THREE.PerspectiveCamera(18, width / height, 1, 1000);
 
   camera.position.x = 0;
   camera.position.y = -150;
   camera.position.z = -300;
-  camera.zoom = 0.2;
-  camera.lookAt(new THREE.Vector3(0, 22, 0));
+  camera.lookAt(new THREE.Vector3(0, 12, 0));
   camera.up.set(0, 1, 0);
   return [scene, camera];
 }
