@@ -2,12 +2,11 @@
 import TextEdit from "./TextEdit.astro";
 
 export interface Props {
-  placeholder: string;
   row_id: string;
   selected?: boolean;
 }
 
-const { placeholder, row_id, selected } = Astro.props;
+const { row_id, selected } = Astro.props;
 ---
 
 <div class="title-row-editor">
