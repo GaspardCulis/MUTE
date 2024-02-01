@@ -128,10 +128,6 @@ const { row_id, column_index, selected } = Astro.props;
     public updateTexture = (new_texture: string) => {
       if (editor.variables["selection.title_row"].get() == this.row_id) {
         if (this.selected || this.dirty_font) {
-          console.debug(
-            `TextEdit: CACA new TextEdit with row_id: ${this.row_id} and column_index: ${this.column_index}`,
-          );
-
           const new_row_text = this.row_text_var.get();
           new_row_text.text[this.column_index].texture = new_texture;
           this.row_text_var.set(new_row_text);
@@ -158,7 +154,6 @@ const { row_id, column_index, selected } = Astro.props;
       editor.variables["selection.font"].off("changed", this.updateDirtyState);
 
       editor.variables["selection.texture"].off("changed", this.updateTexture);
-      console.log("KILLMES");
     }
   }
 
