@@ -2,14 +2,15 @@
 export interface Props {
   placeholder: string;
   variableid: string;
+  selected?: boolean;
 }
 
-const { placeholder, variableid: editor_variable_id } = Astro.props;
+const { placeholder, variableid: editor_variable_id, selected } = Astro.props;
 ---
 
 <div class="title-input-field">
   <input
-    class="title-input"
+    class={`title-input ${selected ? "selected" : ""}`}
     type="text"
     placeholder={placeholder}
     data-variable-id={editor_variable_id}
@@ -47,6 +48,14 @@ const { placeholder, variableid: editor_variable_id } = Astro.props;
     input.addEventListener("focus", (_ev) => {
       editor.variables["selection.title_row"].set(variable_id);
     });
+
+    editor.variables["selection.title_row"].on("changed", (new_value) => {
+      if (new_value === variable_id) {
+        input.classList.add("selected");
+      } else {
+        input.classList.remove("selected");
+      }
+    });
   }
 </script>
 <style>
@@ -58,5 +67,9 @@ const { placeholder, variableid: editor_variable_id } = Astro.props;
     background-color: #313131;
     outline: 4px solid #211c21;
     border-top: 8px solid #212421;
+  }
+
+  input.selected {
+    background-color: #383738;
   }
 </style>
