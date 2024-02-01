@@ -57,7 +57,7 @@ const { row_id, column_index, selected } = Astro.props;
         if (length === column_index) {
           const new_row_text = row_text_var.get();
           new_row_text.text.push({
-            text: "text",
+            text: "",
             texture: editor.variables["selection.texture"].get(),
           });
           row_text_var.set(new_row_text);
