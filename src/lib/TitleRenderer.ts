@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import type Font from "./Font";
+import Font from "./Font";
 import type { FontCharacterCube } from "./Font";
 
 type Style = {
@@ -108,7 +108,7 @@ function createCharMeshes(
     min = Math.min(min, cube.from[0], cube.to[0]);
     max = Math.max(max, cube.from[0], cube.to[0]);
 
-    if (style.type == "bottom") {
+    if (style.type == "bottom" && !style.font.properties.flat) {
       if (cube.to[2] > cube.from[2]) {
         cube.to[2] = 50;
       } else {
@@ -188,7 +188,8 @@ export async function createTitleText(
   }
 
   if (style.row) {
-    text_group.position.y += style.font.height * style.row;
+    text_group.position.y +=
+      (style.font.properties.height || Font.DEFAULT_HEIGHT) * style.row;
   }
   if (style.type === "top") {
     text_group.scale.setX(1.1);
@@ -199,13 +200,20 @@ export async function createTitleText(
     text_group.scale.setY(1.6);
     text_group.scale.setZ(0.75);
     text_group.rotation.fromArray([-Math.PI / 2, 0, 0]);
-    text_group.position.z += style.font.height + 49;
-    text_group.position.y -= 25 - style.font.depth;
+    text_group.position.z +=
+      (style.font.properties.height || Font.DEFAULT_HEIGHT) + 49;
+    if (style.font.properties.flat) {
+      text_group.position.y -= 18;
+    } else {
+      text_group.position.y -=
+        25 - (style.font.properties.ends || [[0, [Font.DEFAULT_DEPTH]]])[0][1];
+    }
   } else if (style.type === "middle") {
     text_group.scale.setX(0.35);
     text_group.scale.setY(0.35);
     text_group.scale.setZ(0.35);
-    text_group.position.y -= style.font.height * 0.35;
+    text_group.position.y -=
+      (style.font.properties.height || Font.DEFAULT_HEIGHT) * 0.35;
   }
 
   if (style.scale) {
