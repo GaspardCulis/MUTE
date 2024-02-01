@@ -21,6 +21,7 @@ export type FontTexture = {
 
 export default class Font {
   static FONTS_PATH = "/title-fonts/fonts";
+  private static _cache: Map<string, Font> = new Map();
 
   constructor(
     readonly id: string,
@@ -31,6 +32,10 @@ export default class Font {
   ) {}
 
   static async load(id: string): Promise<Font> {
+    if (this._cache.has(id)) {
+      return this._cache.get(id) as Font;
+    }
+
     const path = `${Font.FONTS_PATH}/${id}`;
 
     // Font's chars
@@ -45,7 +50,10 @@ export default class Font {
         throw Error("No texture field");
       })();
 
-    return new Font(id, characters, textures, 44, 20);
+    const font = new Font(id, characters, textures, 44, 20);
+    this._cache.set(id, font);
+
+    return font;
   }
 
   getTextureURL(texture_id: string): string {
