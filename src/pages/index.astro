@@ -121,7 +121,8 @@ import Fonts from "../../public/title-fonts/fonts.json";
 	updateTexturesList();
 
 	editor.variables["selection.font"].on("changed", updateTexturesList);
-	editor.variables["selection.texture"].on("changed", (new_texture) => { // Janky, but I'm tired :)
+	editor.variables["selection.texture"].on("changed", (new_texture) => {
+		// Janky, but I'm tired :)
 		const texture_button = textures_list.querySelector(
 			`#${new_texture}`,
 		) as HTMLInputElement;
@@ -147,7 +148,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
-		margin-top: 6rem;
+		margin-top: 1rem;
 	}
 
 	#fonts-list {
