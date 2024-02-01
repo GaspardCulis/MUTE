@@ -32,7 +32,7 @@ const { row_id, column_index, selected } = Astro.props;
     input_element: HTMLInputElement;
     // @ts-ignore
     row_text_var: EditorVariable<StyledText>;
-    dirty_font: boolean = false;
+    current_font: string = "";
 
     constructor() {
       super();
@@ -47,6 +47,7 @@ const { row_id, column_index, selected } = Astro.props;
       this.row_text_var = editor.variables[
         this.row_id
       ] as EditorVariable<StyledText>;
+      this.current_font = this.row_text_var.get().font;
       let dynamically_generated = false;
 
       if (this.input_element === null) {
@@ -124,11 +125,12 @@ const { row_id, column_index, selected } = Astro.props;
     };
 
     public updateTexture = (new_texture: string) => {
-      if (!this.selected) return;
+      if (this.row_text_var.get().font != this.current_font)
+        this.current_font = this.row_text_var.get().font;
+      else if (!this.selected) return;
       const new_row_text = this.row_text_var.get();
       new_row_text.text[this.column_index].texture = new_texture;
       this.row_text_var.set(new_row_text);
-      this.dirty_font = false;
     };
 
     disconnectedCallback() {
