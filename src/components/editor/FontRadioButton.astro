@@ -38,10 +38,14 @@ const element_id = `radio-button-${font_id}`;
     const font_var = editor.variables["selection.font"];
     const font_id = button.dataset.fontId as string;
 
-    button.checked = font_var.get() === font_id;
+    button.checked = font_id === font_var.get();
 
     button.addEventListener("click", () => {
       font_var.set(font_id);
+    });
+
+    editor.variables["selection.font"].on("changed", (new_font) => {
+      button.checked = font_id === new_font;
     });
   }
 </script>
