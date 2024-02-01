@@ -28,8 +28,8 @@ export default class Editor {
       text: [{ text: "Minecraft", texture: "cracked" }],
     }),
     "title.middle": new EditorVariable<StyledText>({
-      font: "minecraft-ten",
-      text: [{ text: "Update", texture: "flat" }],
+      font: "minecraft-five-bold-block",
+      text: [{ text: "Update", texture: "live" }],
     }),
     "title.bottom": new EditorVariable<StyledText>({
       font: "minecraft-ten",
