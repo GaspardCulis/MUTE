@@ -1,0 +1,94 @@
+---
+export interface Props {
+  font_id: string;
+}
+
+const { font_id } = Astro.props;
+const element_id = `radio-button-${font_id}`;
+---
+
+<div class="padding">
+  <div class="outline">
+    <input
+      id={element_id}
+      class="font-radio-button"
+      type="radio"
+      name="font"
+      data-font-id={font_id}
+    />
+    <label for={element_id}>
+      <img
+        height="40px"
+        style="padding-block: 8px; pointer-events: none;"
+        src={`/title-fonts/fonts/${font_id}/thumbnails/flat.png`}
+      />
+    </label>
+  </div>
+</div>
+<script>
+  import Editor from "../../lib/Editor";
+
+  const editor = Editor.get();
+
+  const buttons = document.querySelectorAll(
+    ".font-radio-button",
+  ) as NodeListOf<HTMLInputElement>;
+
+  for (const button of buttons) {
+    const font_var = editor.variables["selection.font"];
+    const font_id = button.dataset.fontId as string;
+
+    button.checked = font_var.get() === font_id;
+
+    button.addEventListener("click", () => {
+      font_var.set(font_id);
+    });
+  }
+</script>
+<style>
+  .padding {
+    min-height: 70px;
+    margin-inline: 2px;
+    margin-bottom: 4px;
+  }
+
+  .outline {
+    outline: 4px solid #211c21;
+    border-bottom: 8px solid #5a595a;
+  }
+
+  .padding:has(input[type="radio"]:checked) {
+    padding-top: 8px;
+  }
+
+  .outline:has(input[type="radio"]:checked) {
+    border-bottom: none;
+  }
+
+  label {
+    text-align: center;
+    user-select: none;
+  }
+
+  input[type="radio"] {
+    display: none;
+    outline: 4px solid red;
+  }
+
+  input[type="radio"] + label {
+    width: 100%;
+    margin-block: 4px;
+
+    display: inline-block;
+    background-color: #ced2d6;
+    outline: 4px solid #e6e3e6;
+    cursor: pointer;
+    color: black;
+  }
+
+  input[type="radio"]:checked + label {
+    background-color: #3a8529;
+    color: white;
+    outline: 4px solid #639e52;
+  }
+</style>
