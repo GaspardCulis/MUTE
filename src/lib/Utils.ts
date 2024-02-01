@@ -9,5 +9,7 @@ export async function loadJson(url: string | URL | Request): Promise<any> {
     throw Error("Server returned invalid JSON: " + response.body);
   }
 
+  console.debug(`loadJson: Loaded ${url}`);
+
   return json;
 }
