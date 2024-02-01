@@ -23,6 +23,10 @@ const { row_id, selected } = Astro.props;
     button.addEventListener("click", (_ev) => {
       const input_container = button.previousElementSibling as HTMLDivElement;
 
+      if (input_container.childElementCount / 2 > 12) {
+        return;
+      }
+
       // Span
       const span = document.createElement("span");
       span.style.width = "2px";
