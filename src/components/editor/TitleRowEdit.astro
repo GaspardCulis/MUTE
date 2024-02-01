@@ -52,10 +52,12 @@ const { row_id, selected } = Astro.props;
     });
 
     editor.variables["selection.font"].on("changed", (new_font) => {
+      if (!selected) return;
       const new_row_text = row_text_var.get();
       new_row_text.font = new_font;
       row_text_var.set(new_row_text);
     });
+
     // UI event listeners
     add_button.addEventListener("click", () => {
       remove_button.style.display = "block";
@@ -75,7 +77,7 @@ const { row_id, selected } = Astro.props;
 
       // TextEdit
       const text_edit = document.createElement("title-text-edit");
-      text_edit.dataset.rowId = add_button.dataset.rowId;
+      text_edit.dataset.rowId = row_id;
       text_edit.dataset.columnIndex = `${
         input_container.childElementCount / 2
       }`;
