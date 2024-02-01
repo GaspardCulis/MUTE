@@ -13,6 +13,12 @@ const { row_id, selected } = Astro.props;
   <div class="input-container">
     <TextEdit row_id={row_id} column_index={0} selected={selected} />
   </div>
+  <button
+    class="remove-button"
+    type="button"
+    data-row-id={row_id}
+    style="display: none;">-</button
+  >
   <button class="add-button" type="button" data-row-id={row_id}>+</button>
 </div>
 <script>
@@ -21,7 +27,12 @@ const { row_id, selected } = Astro.props;
   ) as NodeListOf<HTMLButtonElement>;
   for (let button of add_buttons) {
     button.addEventListener("click", (_ev) => {
-      const input_container = button.previousElementSibling as HTMLDivElement;
+      const remove_button = button.previousElementSibling as HTMLButtonElement;
+      remove_button.style.display = "block";
+
+      const input_container = button.parentElement?.querySelector(
+        ".input-container",
+      ) as HTMLDivElement;
 
       if (input_container.childElementCount / 2 > 12) {
         return;
@@ -44,6 +55,24 @@ const { row_id, selected } = Astro.props;
       }`;
 
       input_container.appendChild(text_edit);
+    });
+  }
+
+  const remove_buttons = document.querySelectorAll(
+    ".remove-button",
+  ) as NodeListOf<HTMLButtonElement>;
+  for (let button of remove_buttons) {
+    button.addEventListener("click", () => {
+      const input_container = button.parentElement?.querySelector(
+        ".input-container",
+      ) as HTMLDivElement;
+
+      input_container.lastElementChild?.remove();
+      input_container.lastElementChild?.remove();
+
+      if (input_container.childElementCount === 1) {
+        button.style.display = "none";
+      }
     });
   }
 </script>
