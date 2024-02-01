@@ -38,6 +38,7 @@
     }
 
     scene.add(title_group);
+    renderer.render(scene, camera);
   }
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
@@ -53,21 +54,6 @@
   editor.variables["title.top"].on("changed", (_v) => generateTitle(scene));
   editor.variables["title.middle"].on("changed", (_v) => generateTitle(scene));
   editor.variables["title.bottom"].on("changed", (_v) => generateTitle(scene));
-
-  const interval = 1 / 30;
-  const clock = new THREE.Clock(true);
-  let delta = 0;
-  function render() {
-    requestAnimationFrame(render);
-
-    delta += clock.getDelta();
-
-    if (delta > interval) {
-      renderer.render(scene, camera);
-      delta = delta % interval;
-    }
-  }
-  render();
 </script>
 <style>
   #title-view {
