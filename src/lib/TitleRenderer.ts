@@ -160,15 +160,14 @@ export async function createTitleText(
     });
 
     for (const char of str.text.toLowerCase()) {
-      if (char === " ") {
-        width += style.space_width || 8;
-        continue;
-      }
-
       if (!style.font.characters[char]) {
-        console.warn(
-          `Character '${char}' not found in font '${style.font.id}'`,
-        );
+        if (char === " ") {
+          width += style.space_width || 8;
+        } else {
+          console.warn(
+            `Character '${char}' not found in font '${style.font.id}'`,
+          );
+        }
         continue;
       }
 
