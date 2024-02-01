@@ -49,19 +49,12 @@
     camera.updateProjectionMatrix();
   });
 
-  const interval = 1 / 30;
   const clock = new THREE.Clock(true);
-  let delta = 0;
   function render() {
     requestAnimationFrame(render);
 
-    delta += clock.getDelta();
-
-    if (delta > interval) {
-      camera.rotateY(-delta * 0.04);
-      renderer.render(scene, camera);
-      delta = delta % interval;
-    }
+    camera.rotateY(-clock.getDelta() * 0.04);
+    renderer.render(scene, camera);
   }
   render();
 </script>
