@@ -56,7 +56,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 	</main>
 </Layout>
 <script>
-	import Editor from "../lib/Editor";
+	import Editor, { EditorVariable } from "../lib/Editor";
 	import Font from "../lib/Font";
 
 	const editor = Editor.get();
@@ -96,6 +96,22 @@ import Fonts from "../../public/title-fonts/fonts.json";
 			const input = div.querySelector("input") as HTMLInputElement;
 			input.addEventListener("input", () => {
 				editor.variables["selection.texture"].set(texture_id);
+				const title_row_id = editor.variables["selection.title_row"].get();
+				// @ts-ignore
+				const title_row = editor.variables[
+					title_row_id
+				] as EditorVariable<StyledText>;
+				const new_title_row: StyledText = {
+					font: font_id,
+					text: title_row.get().text.map((v) => {
+						return {
+							text: v.text,
+							texture: texture_id,
+						};
+					}),
+				};
+
+				title_row.set(new_title_row);
 			});
 
 			textures_list.appendChild(div);

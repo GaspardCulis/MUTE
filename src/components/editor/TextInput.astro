@@ -24,7 +24,7 @@ const { placeholder, variableid: editor_variable_id } = Astro.props;
     ".title-input",
   ) as NodeListOf<HTMLInputElement>;
   for (let input of title_inputs) {
-    const variable_id = input.dataset.variableId;
+    const variable_id = input.dataset.variableId as string;
     // @ts-ignore
     const variable: EditorVariable<StyledText> = editor.variables[variable_id];
     input.value = variable
@@ -42,6 +42,10 @@ const { placeholder, variableid: editor_variable_id } = Astro.props;
           },
         ],
       });
+    });
+
+    input.addEventListener("focus", (_ev) => {
+      editor.variables["selection.title_row"].set(variable_id);
     });
   }
 </script>
