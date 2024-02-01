@@ -91,6 +91,12 @@ const { row_id, column_index, selected } = Astro.props;
       this.input_element.addEventListener("focus", () => {
         editor.variables["selection.title_row"].set(this.row_id);
         editor.variables["selection.title_column_index"].set(this.column_index);
+
+        const styled_text = this.row_text_var.get();
+        editor.variables["selection.texture"].set(
+          styled_text.text[this.column_index].texture,
+        );
+        editor.variables["selection.font"].set(styled_text.font);
       });
 
       editor.variables["selection.title_row"].on(
