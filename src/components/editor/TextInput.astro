@@ -15,6 +15,7 @@ const { placeholder, variableid: editor_variable_id, selected } = Astro.props;
     placeholder={placeholder}
     data-variable-id={editor_variable_id}
   />
+  <button type="button">+</button>
 </div>
 <script>
   import Editor, { EditorVariable } from "../../lib/Editor";
@@ -59,6 +60,10 @@ const { placeholder, variableid: editor_variable_id, selected } = Astro.props;
   }
 </script>
 <style>
+  title-input-field {
+    display: flex;
+  }
+
   input {
     all: unset;
     margin-bottom: 1rem;
@@ -71,5 +76,27 @@ const { placeholder, variableid: editor_variable_id, selected } = Astro.props;
 
   input.selected {
     background-color: #383738;
+  }
+
+  button {
+    unset: all;
+    width: 59px;
+    height: 59px;
+
+    margin-left: -4px;
+    transform: translateY(-6px);
+
+    background-color: #ced2d6;
+    outline: 4px solid #211c21;
+    border: none;
+    border-bottom: 8px solid #5a595a;
+
+    font-size: 24px;
+  }
+
+  button:active {
+    border-bottom: none;
+    transform: translateY(2px);
+    height: 51px;
   }
 </style>
