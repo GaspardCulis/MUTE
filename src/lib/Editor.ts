@@ -39,6 +39,7 @@ export default class Editor {
     "selection.font": new EditorVariable("minecraft-ten"),
     "selection.texture": new EditorVariable("cracked"),
     "selection.title_row": new EditorVariable("title.top"),
+    "selection.title_column_index": new EditorVariable(0),
   };
 
   private constructor() {}

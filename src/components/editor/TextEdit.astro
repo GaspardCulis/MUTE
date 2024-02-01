@@ -1,0 +1,121 @@
+---
+export interface Props {
+  row_id: string;
+  column_index: number;
+  selected?: boolean;
+}
+
+const { row_id, column_index, selected } = Astro.props;
+---
+
+<title-text-edit data-row-id={row_id} data-column-index={column_index}>
+  <input
+    type="text"
+    class={`text-edit ${selected ? "selected" : ""}`}
+    placeholder="Type some text..."
+  />
+</title-text-edit>
+<script>
+  import Editor, { EditorVariable } from "../../lib/Editor";
+
+  const editor = Editor.get();
+
+  class TextEdit extends HTMLElement {
+    constructor() {
+      super();
+    }
+
+    connectedCallback() {
+      const row_id = this.dataset.rowId as string;
+      const column_index = parseInt(this.dataset.columnIndex as string);
+      let input_element = this.querySelector("input") as HTMLInputElement;
+      let dynamically_generated = false;
+
+      if (input_element === null) {
+        dynamically_generated = true;
+
+        input_element = document.createElement("input");
+
+        // Input element initialisation
+        input_element.type = "text";
+        input_element.classList.add("text_edit");
+        input_element.placeholder = "Type some text...";
+        this.appendChild(input_element);
+      }
+
+      console.debug(
+        `TextEdit: Instanciated new TextEdit with row_id: ${row_id} and column_index: ${column_index}`,
+      );
+
+      // @ts-ignore
+      const row_text_var = editor.variables[
+        row_id
+      ] as EditorVariable<StyledText>;
+
+      const length = row_text_var.get().text.length;
+      if (length >= column_index && dynamically_generated) {
+        if (length === column_index) {
+          const new_row_text = row_text_var.get();
+          new_row_text.text.push({
+            text: "text",
+            texture: editor.variables["selection.texture"].get(),
+          });
+          row_text_var.set(new_row_text);
+        } else {
+          throw Error("Styled text elements messesd up");
+        }
+      }
+
+      input_element.value = row_text_var.get().text[column_index].text;
+
+      input_element.addEventListener("input", () => {
+        const new_row_text = row_text_var.get();
+        new_row_text.text[column_index].text = input_element.value;
+        row_text_var.set(new_row_text);
+      });
+
+      input_element.addEventListener("focus", () => {
+        editor.variables["selection.title_row"].set(row_id);
+        editor.variables["selection.title_column_index"].set(column_index);
+      });
+
+      const update_selected_state = () => {
+        if (
+          editor.variables["selection.title_row"].get() === row_id &&
+          editor.variables["selection.title_column_index"].get() ===
+            column_index
+        ) {
+          input_element.classList.add("selected");
+        } else {
+          input_element.classList.remove("selected");
+        }
+      };
+
+      editor.variables["selection.title_row"].on(
+        "changed",
+        update_selected_state,
+      );
+      editor.variables["selection.title_column_index"].on(
+        "changed",
+        update_selected_state,
+      );
+    }
+  }
+
+  customElements.define("title-text-edit", TextEdit);
+</script>
+<style is:global>
+  title-text-edit {
+    flex-grow: 1;
+  }
+
+  title-text-edit > input {
+    all: unset;
+    min-width: 10ch;
+    width: 100%;
+  }
+
+  title-text-edit > input.selected {
+    text-decoration: underline;
+  }
+</style>

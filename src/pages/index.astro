@@ -1,6 +1,6 @@
 ---
 import RadioButton from "../components/editor/RadioButton.astro";
-import TextInput from "../components/editor/TextInput.astro";
+import TitleRowEdit from "../components/editor/TitleRowEdit.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
@@ -14,17 +14,17 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		<section id="editor">
 			<EditorPanel width={3} height={2}>
 				<h1>Top</h1>
-				<TextInput
+				<TitleRowEdit
 					placeholder="Top title text"
-					variableid="title.top"
+					row_id="title.top"
 					selected
 				/>
 
 				<h1>Middle</h1>
-				<TextInput placeholder="Middle title text" variableid="title.middle" />
+				<TitleRowEdit placeholder="Middle title text" row_id="title.middle" />
 
 				<h1>Bottom</h1>
-				<TextInput placeholder="Bottom title text" variableid="title.bottom" />
+				<TitleRowEdit placeholder="Bottom title text" row_id="title.bottom" />
 			</EditorPanel>
 			<EditorPanel width={2} height={2}>
 				<h1>Save</h1>
@@ -105,16 +105,10 @@ import Fonts from "../../public/title-fonts/fonts.json";
 				const title_row = editor.variables[
 					title_row_id
 				] as EditorVariable<StyledText>;
-				const new_title_row: StyledText = {
-					font: font_id,
-					text: title_row.get().text.map((v) => {
-						return {
-							text: v.text,
-							texture: texture_id,
-						};
-					}),
-				};
-
+				const new_title_row = title_row.get();
+				new_title_row.text[
+					editor.variables["selection.title_column_index"].get()
+				].texture = texture_id;
 				title_row.set(new_title_row);
 			});
 

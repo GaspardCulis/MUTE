@@ -1,0 +1,85 @@
+---
+import TextEdit from "./TextEdit.astro";
+
+export interface Props {
+  placeholder: string;
+  row_id: string;
+  selected?: boolean;
+}
+
+const { placeholder, row_id, selected } = Astro.props;
+---
+
+<div class="title-row-editor">
+  <div class="input-container">
+    <TextEdit row_id={row_id} column_index={0} selected={selected} />
+  </div>
+  <button class="add-button" type="button" data-row-id={row_id}>+</button>
+</div>
+<script>
+  const add_buttons = document.querySelectorAll(
+    ".add-button",
+  ) as NodeListOf<HTMLButtonElement>;
+  for (let button of add_buttons) {
+    button.addEventListener("click", (_ev) => {
+      const input_container = button.previousElementSibling as HTMLDivElement;
+
+      // Span
+      const span = document.createElement("span");
+      span.style.width = "2px";
+      span.style.backgroundColor = "#212421";
+      span.style.marginInline = "1rem";
+
+      input_container.appendChild(span);
+
+      // TextEdit
+      const text_edit = document.createElement("title-text-edit");
+      text_edit.dataset.rowId = button.dataset.rowId;
+      text_edit.dataset.columnIndex = `${
+        input_container.childElementCount / 2
+      }`;
+
+      input_container.appendChild(text_edit);
+    });
+  }
+</script>
+<style>
+  .title-row-editor {
+    display: flex;
+    width: 100%;
+  }
+
+  .input-container {
+    display: flex;
+    justify-content: space-between;
+
+    flex-grow: 1;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+    padding-block: 0.6rem;
+    background-color: #313131;
+    outline: 4px solid #211c21;
+    border-top: 8px solid #212421;
+  }
+
+  button {
+    unset: all;
+    width: 59px;
+    height: 59px;
+
+    margin-left: 4px;
+
+    background-color: #ced2d6;
+    outline: 4px solid #211c21;
+    border: none;
+    border-bottom: 8px solid #5a595a;
+
+    font-size: 24px;
+  }
+
+  button:active {
+    border-bottom: none;
+    transform: translateY(8px);
+    height: 51px;
+  }
+</style>
