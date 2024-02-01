@@ -51,18 +51,32 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		"#textures-list",
 	) as HTMLDivElement;
 
-	async function updateTexturesList(font_id: string) {
+	async function updateTexturesList() {
+		const font_id = editor.variables["selection.font"].get();
+
 		textures_list.innerHTML = "";
 
-		let checked = "checked";
 		const font = await Font.load(font_id);
-
-		editor.variables["selection.texture"].set(Object.keys(font.textures)[0]);
+		let texture_found = false;
 
 		for (let [texture_id, _texture] of Object.entries(font.textures)) {
+			// @ts-ignore
+			const selected_row = editor.variables[
+				editor.variables["selection.title_row"].get()
+			].get() as StyledText;
+
+			let checked =
+				texture_id ===
+				selected_row.text[
+					editor.variables["selection.title_column_index"].get()
+				].texture;
+			texture_found = checked || texture_found;
+
 			let div = document.createElement("div");
 			div.innerHTML += `
-				<input type="radio" id="${texture_id}" name="texture" ${checked} />
+				<input type="radio" id="${texture_id}" name="texture" ${
+					checked ? "checked" : ""
+				} />
 				<label for="${texture_id}">
 					<img 
 						height="44px"
@@ -89,13 +103,32 @@ import Fonts from "../../public/title-fonts/fonts.json";
 
 			textures_list.appendChild(div);
 
-			checked = "";
+			if (checked) {
+				div.scrollIntoView();
+			}
+		}
+
+		if (!texture_found) {
+			editor.variables["selection.texture"].set(Object.keys(font.textures)[0]);
+			const first_texture_button =
+				textures_list.firstElementChild?.querySelector(
+					"input",
+				) as HTMLInputElement;
+			first_texture_button.checked = true;
 		}
 	}
 
-	updateTexturesList("minecraft-ten");
+	updateTexturesList();
 
 	editor.variables["selection.font"].on("changed", updateTexturesList);
+	editor.variables["selection.texture"].on("changed", (new_texture) => { // Janky, but I'm tired :)
+		const texture_button = textures_list.querySelector(
+			`#${new_texture}`,
+		) as HTMLInputElement;
+		if (texture_button) {
+			texture_button.checked = true;
+		}
+	});
 </script>
 <style>
 	main {
