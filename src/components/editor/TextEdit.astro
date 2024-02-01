@@ -21,13 +21,16 @@ const { row_id, column_index, selected } = Astro.props;
   const editor = Editor.get();
 
   class TextEdit extends HTMLElement {
+    row_id: string = "";
+    column_index: number = 0;
+
     constructor() {
       super();
     }
 
     connectedCallback() {
-      const row_id = this.dataset.rowId as string;
-      const column_index = parseInt(this.dataset.columnIndex as string);
+      this.row_id = this.dataset.rowId as string;
+      this.column_index = parseInt(this.dataset.columnIndex as string);
       let input_element = this.querySelector("input") as HTMLInputElement;
       let dynamically_generated = false;
 
@@ -44,17 +47,17 @@ const { row_id, column_index, selected } = Astro.props;
       }
 
       console.debug(
-        `TextEdit: Instanciated new TextEdit with row_id: ${row_id} and column_index: ${column_index}`,
+        `TextEdit: Instanciated new TextEdit with row_id: ${this.row_id} and column_index: ${this.column_index}`,
       );
 
       // @ts-ignore
       const row_text_var = editor.variables[
-        row_id
+        this.row_id
       ] as EditorVariable<StyledText>;
 
       const length = row_text_var.get().text.length;
-      if (length >= column_index && dynamically_generated) {
-        if (length === column_index) {
+      if (length >= this.column_index && dynamically_generated) {
+        if (length === this.column_index) {
           const new_row_text = row_text_var.get();
           new_row_text.text.push({
             text: "",
@@ -66,24 +69,24 @@ const { row_id, column_index, selected } = Astro.props;
         }
       }
 
-      input_element.value = row_text_var.get().text[column_index].text;
+      input_element.value = row_text_var.get().text[this.column_index].text;
 
       input_element.addEventListener("input", () => {
         const new_row_text = row_text_var.get();
-        new_row_text.text[column_index].text = input_element.value;
+        new_row_text.text[this.column_index].text = input_element.value;
         row_text_var.set(new_row_text);
       });
 
       input_element.addEventListener("focus", () => {
-        editor.variables["selection.title_row"].set(row_id);
-        editor.variables["selection.title_column_index"].set(column_index);
+        editor.variables["selection.title_row"].set(this.row_id);
+        editor.variables["selection.title_column_index"].set(this.column_index);
       });
 
       const update_selected_state = () => {
         if (
-          editor.variables["selection.title_row"].get() === row_id &&
+          editor.variables["selection.title_row"].get() === this.row_id &&
           editor.variables["selection.title_column_index"].get() ===
-            column_index
+            this.column_index
         ) {
           input_element.classList.add("selected");
         } else {
@@ -99,6 +102,17 @@ const { row_id, column_index, selected } = Astro.props;
         "changed",
         update_selected_state,
       );
+    }
+
+    disconnectedCallback() {
+      // @ts-ignore
+      const row_text_var = editor.variables[
+        this.row_id
+      ] as EditorVariable<StyledText>;
+
+      const new_text = row_text_var.get();
+      new_text.text.splice(this.column_index, 1);
+      row_text_var.set(new_text);
     }
   }
 
