@@ -1,14 +1,15 @@
 ---
 export interface Props {
   id: string;
+  required?: boolean;
 }
 
-const { id } = Astro.props;
+const { id, required } = Astro.props;
 ---
 
 <label class="container" for={id}
   ><slot />
-  <input type="checkbox" id={id} />
+  <input type="checkbox" id={id} {required} />
   <span class="checkmark"></span>
 </label>
 <style>
