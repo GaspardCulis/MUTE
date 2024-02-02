@@ -236,12 +236,3 @@ export async function createTitleText(
 
   return text_group;
 }
-
-export async function renderTitleScene(
-  renderer: THREE.WebGLRenderer,
-  scene: THREE.Scene,
-  camera: THREE.OrthographicCamera,
-  scaleFactor: number,
-) {
-  renderer.render(scene, camera);
-}
