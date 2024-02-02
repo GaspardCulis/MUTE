@@ -1,0 +1,83 @@
+---
+export interface Props {
+  id: string;
+}
+
+const { id } = Astro.props;
+---
+
+<label class="container" for={id}
+  ><slot />
+  <input type="checkbox" id={id} />
+  <span class="checkmark"></span>
+</label>
+<style>
+  .container {
+    display: block;
+    position: relative;
+    padding-left: 42px;
+    margin-bottom: 12px;
+    margin-left: 3px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+
+  /* Hide the browser's default checkbox */
+  .container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+
+  /* Create a custom checkbox */
+  .checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 32px;
+    width: 32px;
+    background-color: #5a555a;
+    outline: 4px solid black;
+  }
+
+  /* On mouse-over, add a grey background color */
+  .container:hover input ~ .checkmark {
+    outline: 4px solid white;
+  }
+
+  /* When the checkbox is checked, add a blue background */
+  .container input:checked ~ .checkmark {
+  }
+
+  /* Create the checkmark/indicator (hidden when not checked) */
+  .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  /* Show the checkmark when checked */
+  .container input:checked ~ .checkmark:after {
+    display: block;
+  }
+
+  /* Style the checkmark/indicator */
+  .container .checkmark:after {
+    left: 4px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-top: solid white;
+    border-right: solid white;
+    border-bottom: solid #8c8a8c;
+    border-left: solid #8c8a8c;
+    border-width: 4px 4px 4px 4px;
+    background-color: #c5c2c5;
+  }
+</style>
