@@ -1,15 +1,15 @@
 ---
 export interface Props {
-  button_id: string;
+  id: string;
 }
 
-const { button_id } = Astro.props;
+const { id } = Astro.props;
 ---
 
 <div class="padding">
   <div class="outline">
-    <input id={button_id} class="submit-button" type="submit" />
-    <label for={button_id}>
+    <input id={id} class="submit-button" type="submit" />
+    <label for={id}>
       <slot />
     </label>
   </div>
