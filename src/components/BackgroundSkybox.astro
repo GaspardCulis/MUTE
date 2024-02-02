@@ -43,7 +43,7 @@
 
   scene.background = texture;
 
-  window.addEventListener("resize", (ev) => {
+  window.addEventListener("resize", (_ev) => {
     renderer.setSize(background.clientWidth, background.clientHeight);
     camera.aspect = background.clientWidth / background.clientHeight;
     camera.updateProjectionMatrix();
