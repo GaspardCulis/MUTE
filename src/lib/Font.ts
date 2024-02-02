@@ -48,7 +48,6 @@ export default class Font {
     // Fonts
     const fonts = await loadJson(`${Font.FONTS_PATH}.json`);
     const font_properties = fonts.find((f: any) => f.id === id);
-    console.log(font_properties);
 
     // Font's chars
     const characters = await loadJson(`${path}/characters.json`);
