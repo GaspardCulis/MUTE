@@ -12,7 +12,10 @@ type Style = {
 };
 
 export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
-  const renderer = new THREE.WebGLRenderer({ alpha: true });
+  const renderer = new THREE.WebGLRenderer({
+    alpha: true,
+    preserveDrawingBuffer: true,
+  });
   renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setClearColor(0xffffff, 0);
   container.appendChild(renderer.domElement);

@@ -52,6 +52,21 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		</section>
 	</main>
 </Layout>
+<script>
+	import Editor from "../lib/Editor";
+
+	const editor = Editor.get();
+	const save_form = document.querySelector("#save-form") as HTMLFormElement;
+
+	save_form.onsubmit = (_ev) => {
+		var link = document.createElement("a");
+		link.download = "MUTE-Title.png";
+		link.href = editor.download_url;
+		link.click();
+
+		return false;
+	};
+</script>
 <style>
 	main {
 		margin: auto;

@@ -42,6 +42,7 @@ export default class Editor {
     "selection.title_row": new EditorVariable("title.top"),
     "selection.title_column_index": new EditorVariable(0),
   };
+  download_url: string = "https://i.ytimg.com/vi/prZBPTfcrbA/maxresdefault.jpg";
 
   private constructor() {}
 

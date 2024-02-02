@@ -38,7 +38,10 @@
     }
 
     scene.add(title_group);
-    renderer.render(scene, camera);
+    requestAnimationFrame(() => {
+      renderer.render(scene, camera);
+      editor.download_url = renderer.domElement.toDataURL();
+    });
   }
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
