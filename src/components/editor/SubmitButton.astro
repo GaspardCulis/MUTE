@@ -18,7 +18,7 @@ const { id } = Astro.props;
   .padding {
     min-height: 70px;
     margin-inline: 2px;
-    margin-bottom: 4px;
+    margin-bottom: 8px;
   }
 
   .outline {
@@ -28,7 +28,8 @@ const { id } = Astro.props;
   }
 
   .padding:has(input:active) {
-    padding-top: 8px;
+    margin-bottom: 0px;
+    margin-top: 8px;
   }
 
   .outline:has(input:active) {
@@ -45,7 +46,7 @@ const { id } = Astro.props;
     outline: 4px solid red;
   }
 
-  input + label {
+  input:valid + label {
     width: 100%;
 
     display: inline-block;
@@ -55,6 +56,7 @@ const { id } = Astro.props;
     cursor: pointer;
   }
 
-  input:active + label {
+  input:invalid + label {
+    background-color: red;
   }
 </style>
