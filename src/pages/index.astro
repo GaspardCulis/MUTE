@@ -4,6 +4,8 @@ import TitleRowEdit from "../components/editor/TitleRowEdit.astro";
 import TitleView from "../components/TitleView.astro";
 import EditorPanel from "../layouts/EditorPanel.astro";
 import Layout from "../layouts/Layout.astro";
+import SubmitButton from "../components/editor/SubmitButton.astro";
+import Checkbox from "../components/editor/Checkbox.astro";
 
 import Fonts from "../../public/title-fonts/fonts.json";
 ---
@@ -24,6 +26,16 @@ import Fonts from "../../public/title-fonts/fonts.json";
 			</EditorPanel>
 			<EditorPanel width={2} height={2}>
 				<h1>Save</h1>
+				<form id="save-form">
+					<Checkbox id="eula-checkbox" required
+						>I agree to <a
+							href="https://www.minecraft.net/en-us/eula"
+							target="_blank"
+							style="color: inherit;">Mojang's EULA</a
+						></Checkbox
+					>
+					<SubmitButton id="save-button">Save</SubmitButton>
+				</form>
 			</EditorPanel>
 			<EditorPanel width={4} height={4}>
 				<h1>Fonts</h1>
@@ -150,6 +162,14 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
 		margin-top: 1rem;
+	}
+
+	#save-form {
+		display: flex;
+		flex-direction: column;
+		justify-content: end;
+
+		height: 100%;
 	}
 
 	#fonts-list {
