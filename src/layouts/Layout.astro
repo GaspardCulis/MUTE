@@ -1,4 +1,5 @@
 ---
+import { SEO } from "astro-seo";
 import BackgroundSkybox from "../components/BackgroundSkybox.astro";
 
 interface Props {
@@ -17,32 +18,43 @@ const { title } = Astro.props;
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
+		<SEO
+			title="Minecraft Update Title Editor"
+			description="Create and generate your own 3D Minecraft update logos with custom fonts and textures, looking just like the official ones."
+			openGraph={{
+				basic: {
+					title: "Minecraft Update Title Editor",
+					type: "website",
+					image: "https://minecraft-update-title-editor.vercel.app/logo.png",
+				},
+			}}
+		/>
 	</head>
 	<body>
 		<slot />
 		<BackgroundSkybox />
+		<style is:global>
+			@font-face {
+				font-family: "Minecraft Regular";
+				src: url("/fonts/MinecraftRegular.otf") format("truetype");
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			@font-face {
+				font-family: "Minecraft Ten";
+				src: url("/fonts/MinecraftTen.ttf") format("truetype");
+				font-weight: normal;
+				font-style: normal;
+			}
+
+			body,
+			html {
+				height: 100%;
+				margin: 0px;
+
+				font-family: Minecraft Regular;
+			}
+		</style>
 	</body>
 </html>
-<style is:global>
-	@font-face {
-		font-family: "Minecraft Regular";
-		src: url("/fonts/MinecraftRegular.otf") format("truetype");
-		font-weight: normal;
-		font-style: normal;
-	}
-
-	@font-face {
-		font-family: "Minecraft Ten";
-		src: url("/fonts/MinecraftTen.ttf") format("truetype");
-		font-weight: normal;
-		font-style: normal;
-	}
-
-	body,
-	html {
-		height: 100%;
-		margin: 0px;
-
-		font-family: Minecraft Regular;
-	}
-</style>
