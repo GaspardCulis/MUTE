@@ -1,6 +1,6 @@
 # Minecraft Update Title Editor
 
-The Web port of [MinecraftTitleGenerator](https://github.com/ewanhowell5195/MinecraftTitleGenerator) made with the [Astro](https://github.com/withastro/astro) framework.
+The Web port of [MinecraftTitleGenerator](https://github.com/ewanhowell5195/MinecraftTitleGenerator) made with the [Astro](https://github.com/withastro/astro) framework, in 1 week.
 
 ## Credits
 
