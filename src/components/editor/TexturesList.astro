@@ -15,7 +15,7 @@
     "#textures-list",
   ) as HTMLDivElement;
 
-  async function updateTexturesList(_: string, first_load?: boolean) {
+  async function updateTexturesList() {
     const font_id = editor.variables["selection.font"].get();
 
     textures_list.innerHTML = "";
@@ -67,10 +67,6 @@
       });
 
       textures_list.appendChild(div);
-
-      if (checked && !first_load) {
-        div.scrollIntoView();
-      }
     }
 
     if (!texture_found) {
@@ -83,7 +79,7 @@
     }
   }
 
-  updateTexturesList("", true);
+  updateTexturesList();
 
   editor.variables["selection.font"].on("changed", updateTexturesList);
   editor.variables["selection.texture"].on("changed", (new_texture) => {
