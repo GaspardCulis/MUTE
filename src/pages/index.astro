@@ -72,10 +72,8 @@ import Fonts from "../../public/title-fonts/fonts.json";
 </script>
 <style>
 	main {
-		margin: auto;
-		padding-block: 3rem;
-		width: 1200px;
-		max-width: calc(100% - 2rem);
+		padding-top: 3rem;
+		width: 100%;
 		color: white;
 		font-size: 20px;
 		line-height: 1.6;
@@ -83,8 +81,11 @@ import Fonts from "../../public/title-fonts/fonts.json";
 
 	#editor {
 		display: grid;
-		gap: 2rem;
 
+		width: 50%;
+		margin: auto;
+
+		gap: 2rem;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 
 		margin-top: 1rem;
