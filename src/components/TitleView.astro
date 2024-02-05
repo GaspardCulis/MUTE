@@ -61,6 +61,7 @@
 
   const renderer = createRenderer();
   container.appendChild(renderer.domElement);
+  renderer.setPixelRatio(window.devicePixelRatio * 2);
   renderer.domElement.id = "renderer-canvas";
 
   const [scene, camera] = createScene(w, h);
