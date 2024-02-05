@@ -17,9 +17,7 @@
 
   const texture_loader = new THREE.TextureLoader();
 
-  async function generateTitle(scene: THREE.Scene): Promise<void> {
-    scene.clear();
-
+  async function generateTitle(): Promise<THREE.Group> {
     const title_group = new THREE.Group();
     for (const row of ["top", "middle", "bottom"]) {
       // @ts-ignore
@@ -37,11 +35,23 @@
       title_group.add(text_group);
     }
 
-    scene.add(title_group);
-    requestAnimationFrame(() => {
-      renderer.render(scene, camera);
-      editor.download_url = renderer.domElement.toDataURL();
-    });
+    return title_group;
+  }
+
+  async function updateTitle(scene: THREE.Scene) {
+    scene.clear();
+    scene.add(await generateTitle());
+  }
+
+  function resizeRendererToDisplaySize(renderer: THREE.WebGLRenderer) {
+    const canvas = renderer.domElement;
+    const width = canvas.clientWidth;
+    const height = canvas.clientHeight;
+    const needResize = canvas.width !== width || canvas.height !== height;
+    if (needResize) {
+      renderer.setSize(width, height, false);
+    }
+    return needResize;
   }
 
   const container = document.querySelector("#title-view") as HTMLDivElement;
@@ -49,18 +59,42 @@
   const w = container.clientWidth;
   const h = container.clientHeight;
 
-  const renderer = createRenderer(container);
+  const renderer = createRenderer();
+  container.appendChild(renderer.domElement);
+  renderer.domElement.id = "renderer-canvas";
+
   const [scene, camera] = createScene(w, h);
+  scene.add(await generateTitle());
 
-  await generateTitle(scene);
+  editor.variables["title.top"].on("changed", (_v) => updateTitle(scene));
+  editor.variables["title.middle"].on("changed", (_v) => updateTitle(scene));
+  editor.variables["title.bottom"].on("changed", (_v) => updateTitle(scene));
 
-  editor.variables["title.top"].on("changed", (_v) => generateTitle(scene));
-  editor.variables["title.middle"].on("changed", (_v) => generateTitle(scene));
-  editor.variables["title.bottom"].on("changed", (_v) => generateTitle(scene));
+  function render() {
+    if (resizeRendererToDisplaySize(renderer)) {
+      const canvas = renderer.domElement;
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+    }
+
+    renderer.render(scene, camera);
+
+    requestAnimationFrame(() => {
+      render();
+    });
+  }
+  render();
 </script>
 <style>
   #title-view {
     width: 100%;
-    height: 260px;
+    aspect-ratio: 4;
+  }
+</style>
+<style is:inline>
+  #renderer-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 </style>

@@ -11,14 +11,12 @@ type Style = {
   space_width?: number;
 };
 
-export function createRenderer(container: HTMLElement): THREE.WebGLRenderer {
+export function createRenderer(): THREE.WebGLRenderer {
   const renderer = new THREE.WebGLRenderer({
     alpha: true,
     preserveDrawingBuffer: true,
   });
-  renderer.setSize(container.clientWidth, container.clientHeight);
   renderer.setClearColor(0xffffff, 0);
-  container.appendChild(renderer.domElement);
   return renderer;
 }
 
