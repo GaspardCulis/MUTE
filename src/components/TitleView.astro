@@ -65,7 +65,7 @@
   renderer.domElement.id = "renderer-canvas";
 
   const [scene, camera] = createScene(w, h);
-  scene.add(await generateTitle());
+  updateTitle(scene);
 
   editor.variables["title.top"].on("changed", (_v) => updateTitle(scene));
   editor.variables["title.middle"].on("changed", (_v) => updateTitle(scene));
@@ -79,6 +79,7 @@
     }
 
     renderer.render(scene, camera);
+    editor.download_url = renderer.domElement.toDataURL();
 
     requestAnimationFrame(() => {
       render();
