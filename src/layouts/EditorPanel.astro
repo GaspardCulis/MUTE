@@ -7,16 +7,11 @@ export interface Props {
 const { width, height } = Astro.props;
 ---
 
-<div
-  class="panel"
-  style={`grid-column: span ${width || 1} / auto; grid-row: span ${
-    height || 1
-  } / auto;`}
->
+<div class="panel">
   <slot />
 </div>
 
-<style>
+<style define:vars={{ gridWidth: width, gridHeight: height }}>
   .panel {
     display: flex;
     flex-direction: column;
@@ -26,6 +21,13 @@ const { width, height } = Astro.props;
     background-color: #4a494a;
     outline: 4px solid #211c21;
     border-block: 4px solid #5a595a;
+  }
+
+  @media screen and (min-width: 80rem) {
+    .panel {
+      grid-column: span var(--gridWidth) / auto;
+      grid-row: span var(--gridHeight) / auto;
+    }
   }
 </style>
 <style is:global>
