@@ -121,7 +121,8 @@ const { row_id, selected } = Astro.props;
   button {
     unset: all;
     height: calc(100% - 1rem);
-    aspect-ratio: 1;
+    width: 56px;
+    min-width: 42px;
 
     margin-left: 4px;
 
@@ -136,6 +137,6 @@ const { row_id, selected } = Astro.props;
   button:active {
     border-bottom: none;
     transform: translateY(8px);
-    height: 51px;
+    height: calc(100% - 1rem - 8px);
   }
 </style>
