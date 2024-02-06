@@ -30,11 +30,13 @@ import Fonts from "../../public/title-fonts/fonts.json";
 				<h1>Save</h1>
 				<form id="save-form">
 					<Checkbox id="eula-checkbox" required
-						>I agree to <a
-							href="https://www.minecraft.net/en-us/eula"
-							target="_blank"
-							style="color: inherit;">Mojang's EULA</a
-						></Checkbox
+						><div style="white-space: nowrap;">
+							I agree to <a
+								href="https://www.minecraft.net/en-us/eula"
+								target="_blank"
+								style="color: inherit;">Mojang's EULA</a
+							>
+						</div></Checkbox
 					>
 					<SubmitButton id="save-button">Save</SubmitButton>
 				</form>
