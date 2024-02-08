@@ -16,7 +16,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 	<main>
 		<TitleView />
 		<section id="editor">
-			<EditorPanel width={3} height={2}>
+			<EditorPanel width={3} widthS={2}>
 				<h1>Top</h1>
 				<TitleRowEdit row_id="title.top" selected />
 
@@ -26,7 +26,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 				<h1>Bottom</h1>
 				<TitleRowEdit row_id="title.bottom" />
 			</EditorPanel>
-			<EditorPanel width={2} height={2}>
+			<EditorPanel width={2} widthS={2}>
 				<h1>Save</h1>
 				<form id="save-form">
 					<Checkbox id="eula-checkbox" required
@@ -41,17 +41,17 @@ import Fonts from "../../public/title-fonts/fonts.json";
 					<SubmitButton id="save-button">Save</SubmitButton>
 				</form>
 			</EditorPanel>
-			<EditorPanel width={2} height={2}>
+			<EditorPanel width={2} widthS={1}>
 				<h1>Fonts</h1>
 				<div id="fonts-list">
 					{Fonts.map((font) => <FontRadioButton font_id={font.id} />)}
 				</div>
 			</EditorPanel>
-			<EditorPanel width={3} height={2}>
+			<EditorPanel width={3} widthS={1}>
 				<h1>Textures</h1>
 				<TexturesList />
 			</EditorPanel>
-			<EditorPanel width={5} height={1}>
+			<EditorPanel width={5} widthS={2}>
 				<Footer />
 			</EditorPanel>
 		</section>
@@ -106,13 +106,19 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		grid-template-columns: repeat(2, 1fr);
 	}
 
-	@media screen and (min-width: 1300px) {
+	@media screen and (min-width: 700px) {
+		#editor {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media screen and (min-width: 1100px) {
 		main {
 			font-size: 20px;
 		}
 
 		#editor {
-			width: 70%;
+			width: 80%;
 
 			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		}
