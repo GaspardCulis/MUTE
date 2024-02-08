@@ -42,7 +42,7 @@ const { id } = Astro.props;
 
     padding-top: 6px;
     font-family: Minecraft Ten;
-    font-size: 32px;
+    font-size: 24px;
   }
 
   input {
@@ -62,5 +62,11 @@ const { id } = Astro.props;
 
   input:invalid + label {
     background-color: red;
+  }
+
+  @media screen and (min-width: 80rem) {
+    label {
+      font-size: 32px;
+    }
   }
 </style>
