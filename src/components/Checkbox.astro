@@ -14,13 +14,18 @@ const { id, required } = Astro.props;
 </label>
 <style>
   .container {
-    display: block;
     position: relative;
-    padding-left: 42px;
-    margin-bottom: 24px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding-left: 48px;
+    padding-block: calc(32px / 2 - 1ch);
+    margin-bottom: 16px;
     margin-left: 3px;
     cursor: pointer;
-    font-size: 22px;
+
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -44,6 +49,7 @@ const { id, required } = Astro.props;
     height: 32px;
     width: 32px;
     background-color: #5a555a;
+    transform: translateY(4px);
     outline: 4px solid black;
   }
 
