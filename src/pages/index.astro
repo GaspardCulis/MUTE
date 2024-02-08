@@ -88,7 +88,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		margin: auto;
 
 		gap: 2rem;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
 
 		margin-top: 1rem;
 	}
@@ -112,11 +112,19 @@ import Fonts from "../../public/title-fonts/fonts.json";
 		}
 
 		#editor {
-			width: 50%;
+			width: 70%;
+
+			grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 		}
 
 		#save-form {
 			padding-bottom: 24px;
+		}
+	}
+
+	@media screen and (min-width: 120rem) {
+		#editor {
+			width: 50%;
 		}
 	}
 </style>
