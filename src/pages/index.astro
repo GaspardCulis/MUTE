@@ -41,13 +41,13 @@ import Fonts from "../../public/title-fonts/fonts.json";
 					<SubmitButton id="save-button">Save</SubmitButton>
 				</form>
 			</EditorPanel>
-			<EditorPanel width={4} height={4}>
+			<EditorPanel width={2} height={4}>
 				<h1>Fonts</h1>
 				<div id="fonts-list">
 					{Fonts.map((font) => <FontRadioButton font_id={font.id} />)}
 				</div>
 			</EditorPanel>
-			<EditorPanel width={1} height={4}>
+			<EditorPanel width={3} height={4}>
 				<h1>Textures</h1>
 				<TexturesList />
 			</EditorPanel>
