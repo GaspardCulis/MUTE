@@ -1,5 +1,6 @@
 ---
 import FontRadioButton from "../components/editor/FontRadioButton.astro";
+import BackgroundSkybox from "../components/BackgroundSkybox.astro";
 import TitleRowEdit from "../components/editor/TitleRowEdit.astro";
 import TexturesList from "../components/editor/TexturesList.astro";
 import TitleView from "../components/TitleView.astro";
@@ -13,6 +14,7 @@ import Fonts from "../../public/title-fonts/fonts.json";
 ---
 
 <Layout title="Minecraft Update Title Editor">
+	<BackgroundSkybox />
 	<main>
 		<TitleView />
 		<section id="editor">
