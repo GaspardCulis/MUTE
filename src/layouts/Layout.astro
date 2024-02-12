@@ -29,8 +29,10 @@ const { title } = Astro.props;
 		/>
 
 		<!-- Google tag (gtag.js) -->
-		<script async src="https://www.googletagmanager.com/gtag/js?id=G-CBW27WLEFK"
-		></script>
+		<script
+			is:inline
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=G-CBW27WLEFK"></script>
 		<script is:inline>
 			window.dataLayer = window.dataLayer || [];
 			function gtag() {
@@ -41,10 +43,6 @@ const { title } = Astro.props;
 			gtag("config", "G-CBW27WLEFK");
 		</script>
 		<meta name="google-adsense-account" content="ca-pub-6558008609014707" />
-		<script
-			async
-			src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6558008609014707"
-			crossorigin="anonymous"></script>
 	</head>
 	<body>
 		<slot />
