@@ -1,8 +1,23 @@
 ---
+import { getImage } from "astro:assets";
 
+import skybox_0 from "../../public/skyboxes/cherry-grove/skybox_0.png";
+import skybox_1 from "../../public/skyboxes/cherry-grove/skybox_1.png";
+import skybox_2 from "../../public/skyboxes/cherry-grove/skybox_2.png";
+import skybox_3 from "../../public/skyboxes/cherry-grove/skybox_3.png";
+import skybox_4 from "../../public/skyboxes/cherry-grove/skybox_4.png";
+import skybox_5 from "../../public/skyboxes/cherry-grove/skybox_5.png";
+
+const optimized_skyboxes = await Promise.all(
+  [skybox_0, skybox_1, skybox_2, skybox_3, skybox_4, skybox_5].map(
+    async (img) => {
+      return await getImage({ src: img, format: "webp" });
+    },
+  ),
+);
 ---
 
-<div id="background"></div>
+<div id="background" data-skyboxes={JSON.stringify(optimized_skyboxes)}></div>
 <style>
   #background {
     position: fixed;
@@ -18,6 +33,7 @@
   import * as THREE from "three";
 
   const background = document.querySelector("#background") as HTMLDivElement;
+  const skyboxes = JSON.parse(background.dataset.skyboxes!);
 
   const renderer = new THREE.WebGLRenderer();
   renderer.setSize(background.clientWidth, background.clientHeight);
@@ -32,14 +48,7 @@
   background.appendChild(renderer.domElement);
 
   const loader = new THREE.CubeTextureLoader();
-  const texture = loader.load([
-    "/skyboxes/cherry-grove/skybox_0.png",
-    "/skyboxes/cherry-grove/skybox_1.png",
-    "/skyboxes/cherry-grove/skybox_2.png",
-    "/skyboxes/cherry-grove/skybox_3.png",
-    "/skyboxes/cherry-grove/skybox_4.png",
-    "/skyboxes/cherry-grove/skybox_5.png",
-  ]);
+  const texture = loader.load(skyboxes.map((s: any) => s.src));
 
   scene.background = texture;
 
