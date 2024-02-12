@@ -17,6 +17,13 @@
 <script>
   import * as THREE from "three";
 
+  import skybox_0 from "../../public/skyboxes/cherry-grove/skybox_0.png";
+  import skybox_1 from "../../public/skyboxes/cherry-grove/skybox_1.png";
+  import skybox_2 from "../../public/skyboxes/cherry-grove/skybox_2.png";
+  import skybox_3 from "../../public/skyboxes/cherry-grove/skybox_3.png";
+  import skybox_4 from "../../public/skyboxes/cherry-grove/skybox_4.png";
+  import skybox_5 from "../../public/skyboxes/cherry-grove/skybox_5.png";
+
   const background = document.querySelector("#background") as HTMLDivElement;
 
   const renderer = new THREE.WebGLRenderer();
@@ -33,12 +40,12 @@
 
   const loader = new THREE.CubeTextureLoader();
   const texture = loader.load([
-    "/skyboxes/cherry-grove/skybox_0.png",
-    "/skyboxes/cherry-grove/skybox_1.png",
-    "/skyboxes/cherry-grove/skybox_2.png",
-    "/skyboxes/cherry-grove/skybox_3.png",
-    "/skyboxes/cherry-grove/skybox_4.png",
-    "/skyboxes/cherry-grove/skybox_5.png",
+    skybox_0.src,
+    skybox_1.src,
+    skybox_2.src,
+    skybox_3.src,
+    skybox_4.src,
+    skybox_5.src,
   ]);
 
   scene.background = texture;
