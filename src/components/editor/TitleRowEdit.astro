@@ -9,7 +9,7 @@ export interface Props {
 const { row_id, selected } = Astro.props;
 ---
 
-<div
+<form
   class="title-row-editor"
   data-row-id={row_id}
   data-selected={selected ? "true" : "false"}
@@ -19,7 +19,7 @@ const { row_id, selected } = Astro.props;
   </div>
   <button class="remove-button" type="button" style="display: none;">-</button>
   <button class="add-button" type="button">+</button>
-</div>
+</form>
 <script>
   import Editor, { EditorVariable } from "../../lib/Editor";
 

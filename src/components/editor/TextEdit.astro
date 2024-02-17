@@ -15,6 +15,7 @@ const { row_id, column_index, selected } = Astro.props;
 >
   <input
     type="text"
+    name={`text-edit-${row_id}-${column_index}`}
     class={`text-edit ${selected ? "selected" : ""}`}
     placeholder="Type some text..."
   />
