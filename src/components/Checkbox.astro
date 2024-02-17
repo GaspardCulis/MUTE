@@ -9,7 +9,7 @@ const { id, required } = Astro.props;
 
 <label class="container" for={id}
   ><slot />
-  <input type="checkbox" id={id} {required} />
+  <input type="checkbox" id={id} name={id} {required} />
   <span class="checkmark"></span>
 </label>
 <style>

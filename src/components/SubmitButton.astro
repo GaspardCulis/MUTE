@@ -8,7 +8,7 @@ const { id } = Astro.props;
 
 <div class="padding">
   <div class="outline">
-    <input id={id} class="submit-button" type="submit" />
+    <input type="submit" id={id} name={id} class="submit-button" />
     <label for={id}>
       <slot />
     </label>
