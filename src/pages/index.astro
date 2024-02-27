@@ -11,10 +11,12 @@ import SubmitButton from "../components/SubmitButton.astro";
 import Checkbox from "../components/Checkbox.astro";
 
 import Fonts from "../../public/title-fonts/fonts.json";
+import AdvancementOverlay from "../components/AdvancementOverlay.astro";
 ---
 
 <Layout title="Minecraft Update Title Editor">
 	<BackgroundSkybox />
+	<AdvancementOverlay />
 	<main>
 		<TitleView />
 		<section id="editor">
@@ -73,6 +75,22 @@ import Fonts from "../../public/title-fonts/fonts.json";
 
 		return false;
 	};
+
+	setTimeout(() => {
+		const acceptButton = document.createElement("a");
+		acceptButton.innerText = "Accept";
+		acceptButton.href = "#";
+		acceptButton.onclick = () => {
+			window.popAdvancement("cookies");
+		};
+		acceptButton.style.color = "cyan";
+
+		window.pushAdvancement("cookies", {
+			title: "This website uses cookies!",
+			icon: "/img/cookie.png",
+			children: [acceptButton],
+		});
+	}, 1000);
 </script>
 <style>
 	main {
