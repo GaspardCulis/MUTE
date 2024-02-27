@@ -1,0 +1,199 @@
+.advancement > .inner-corner > .hbox > .vbox > h1 {
+  all: unset;
+  line-height: 24px;
+  margin-top: 3px;
+  color: yellow;
+}
+
+.advancement > .inner-corner > .hbox > img {
+  image-rendering: pixelated;
+
+  margin-inline: 12px;
+}
+
+.advancement > .inner-corner > .hbox {
+  display: flex;
+  height: 100%;
+
+  align-items: center;
+}
+
+.advancement > .inner-corner > .hbox > .vbox {
+  display: flex;
+  flex-direction: column;
+
+  height: 100%;
+}
+
+/* Generated using https://pixelcorners.lukeb.co.uk */
+
+.advancement.external-corner {
+  width: 320px;
+  height: 72px;
+
+  padding: 6px;
+
+  color: white;
+  background-color: #555555;
+  box-sizing: border-box;
+}
+
+.advancement.external-corner,
+.advancement.external-corner--wrapper {
+  clip-path: polygon(
+    0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px
+  );
+  position: relative;
+}
+.advancement.external-corner {
+  border: 3px solid transparent;
+}
+.advancement.external-corner--wrapper {
+  width: fit-content;
+  height: fit-content;
+}
+.advancement.external-corner--wrapper .advancement.external-corner {
+  display: block;
+  clip-path: polygon(
+    3px 6px,
+    6px 6px,
+    6px 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px)
+  );
+}
+.advancement.external-corner::after,
+.advancement.external-corner--wrapper::after {
+  content: "";
+  position: absolute;
+  clip-path: polygon(
+    0px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px 100%,
+    calc(100% - 6px) 100%,
+    calc(100% - 6px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 3px),
+    calc(100% - 3px) calc(100% - 6px),
+    100% calc(100% - 6px),
+    100% 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 0px,
+    6px 0px,
+    6px 3px,
+    3px 3px,
+    3px 6px,
+    0px 6px,
+    0px 50%,
+    3px 50%,
+    3px 6px,
+    6px 6px,
+    6px 3px,
+    calc(100% - 6px) 3px,
+    calc(100% - 6px) 6px,
+    calc(100% - 3px) 6px,
+    calc(100% - 3px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 6px),
+    calc(100% - 6px) calc(100% - 3px),
+    6px calc(100% - 3px),
+    6px calc(100% - 6px),
+    3px calc(100% - 6px),
+    3px 50%,
+    0px 50%
+  );
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #000000;
+  display: block;
+  pointer-events: none;
+}
+.advancement.external-corner::after {
+  margin: -3px;
+}
+
+.advancement > .inner-corner {
+  width: 100%;
+  height: 100%;
+
+  background-color: #212121;
+
+  clip-path: polygon(
+    0px calc(100% - 3px),
+    3px calc(100% - 3px),
+    3px 100%,
+    calc(100% - 3px) 100%,
+    calc(100% - 3px) calc(100% - 3px),
+    100% calc(100% - 3px),
+    100% 3px,
+    calc(100% - 3px) 3px,
+    calc(100% - 3px) 0px,
+    3px 0px,
+    3px 3px,
+    0px 3px
+  );
+}
+
+.advancement {
+  transform: translateX(150%);
+
+  animation: slide-left 600ms ease-out forwards;
+  animation-delay: 1s;
+
+  margin-bottom: 8px;
+}
+
+.advancement.yeet {
+  animation: slide-right 600ms ease-in forwards;
+  animation-delay: 0s;
+}
+
+@keyframes slide-left {
+  from {
+    transform: translateX(150%);
+  }
+
+  to {
+    transform: translateX(0%);
+  }
+}
+/* Im a dumbass */
+@keyframes slide-right {
+  from {
+    transform: translateX(0%);
+  }
+
+  to {
+    transform: translateX(150%);
+  }
+}

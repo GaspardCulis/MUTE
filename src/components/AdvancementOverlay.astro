@@ -1,0 +1,83 @@
+---
+import Advancement from "./Advancement.astro";
+---
+
+<div id="cookie-overlay">
+  <link rel="stylesheet" href="/css/advancement.css" />
+</div>
+<script>
+  const advancement_container = document.querySelector(
+    "#cookie-overlay",
+  ) as HTMLDivElement;
+
+  function generateAdvancement(params: AdvancementParams): HTMLDivElement {
+    const advancement = document.createElement("div");
+    advancement.classList.add("advancement", "external-corner");
+
+    const inner_corner = document.createElement("div");
+    inner_corner.classList.add("inner-corner");
+    advancement.appendChild(inner_corner);
+
+    const hbox = document.createElement("div");
+    hbox.classList.add("hbox");
+    inner_corner.appendChild(hbox);
+
+    const img = document.createElement("img");
+    img.alt = "Advancement icon";
+    img.width = 42;
+    img.height = 42;
+    img.src = params.icon instanceof URL ? params.icon.toString() : params.icon;
+    hbox.appendChild(img);
+
+    const vbox = document.createElement("div");
+    vbox.classList.add("vbox");
+    hbox.appendChild(vbox);
+
+    const h = document.createElement("h1");
+    h.innerText = params.title;
+    vbox.appendChild(h);
+
+    if (params.children) params.children.forEach((e) => vbox.appendChild(e));
+
+    return advancement;
+  }
+  window.pushAdvancement = (id, params) => {
+    const advancement = generateAdvancement(params);
+    advancement.id = `advancement-${id}`;
+
+    advancement_container.appendChild(advancement);
+  };
+
+  window.popAdvancement = (id) => {
+    const advancement = advancement_container.querySelector(
+      `#advancement-${id}`,
+    );
+
+    if (!advancement) {
+      throw new Error("Advancement with id " + id + " not found");
+    }
+
+    if (!advancement.classList.contains("yeet")) {
+      advancement.classList.add("yeet");
+      setTimeout(() => {
+        advancement.remove();
+      }, 1000);
+    }
+  };
+</script>
+<style>
+  #cookie-overlay {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+
+    padding: 1rem;
+    box-sizing: border-box;
+  }
+</style>
