@@ -76,11 +76,14 @@ import AdvancementOverlay from "../components/AdvancementOverlay.astro";
 		return false;
 	};
 
-	setTimeout(() => {
+	document.addEventListener("DOMContentLoaded", () => {
+		if (localStorage.getItem("cookies:accepted")) return;
+
 		const acceptButton = document.createElement("a");
 		acceptButton.innerText = "Accept";
 		acceptButton.href = "#";
 		acceptButton.onclick = () => {
+			localStorage.setItem("cookies:accepted", "oh yeah baby");
 			window.popAdvancement("cookies");
 		};
 		acceptButton.style.color = "cyan";
@@ -90,7 +93,7 @@ import AdvancementOverlay from "../components/AdvancementOverlay.astro";
 			icon: "/img/cookie.png",
 			children: [acceptButton],
 		});
-	}, 1000);
+	});
 </script>
 <style>
 	main {
