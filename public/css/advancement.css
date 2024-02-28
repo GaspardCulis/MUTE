@@ -171,6 +171,8 @@
   animation-delay: 1s;
 
   margin-bottom: 8px;
+
+  pointer-events: auto;
 }
 
 .advancement.yeet {
