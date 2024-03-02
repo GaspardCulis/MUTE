@@ -26,6 +26,14 @@ const { title, description } = Astro.props;
 					type: "website",
 					image: `${import.meta.env.SITE}/logo.png`,
 				},
+				image: {
+					url: `${import.meta.env.SITE}/logo.png`,
+					secureUrl: `${import.meta.env.SITE}/logo.png`,
+					type: "image/png",
+					alt: "Minecraft Update Title Editor Logo",
+					width: 874,
+					height: 257,
+				},
 			}}
 			twitter={{
 				card: "summary_large_image",
