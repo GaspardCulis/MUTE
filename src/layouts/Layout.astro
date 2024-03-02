@@ -21,10 +21,18 @@ const { title } = Astro.props;
 			description="Create and generate your own 3D Minecraft update logos with custom fonts and textures, looking just like the official ones."
 			openGraph={{
 				basic: {
-					title: "Minecraft Update Title Editor",
+					title,
 					type: "website",
 					image: `${import.meta.env.SITE}/logo.png`,
 				},
+			}}
+			twitter={{
+				card: "summary",
+				title,
+				image: `${import.meta.env.SITE}/logo.png`,
+				imageAlt: "Minecraft Update Title Editor Logo",
+				description:
+					"Create and generate your own 3D Minecraft update logos with custom fonts and textures, looking just like the official ones.",
 			}}
 		/>
 
