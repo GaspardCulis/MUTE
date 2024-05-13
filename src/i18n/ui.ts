@@ -2,6 +2,7 @@ export const defaultLocale = "en";
 export const locales = {
   en: "en-US",
   fr: "fr-FR",
+  es: "es-ES",
 };
 
 export const ui = {
@@ -46,5 +47,26 @@ export const ui = {
 
     "footer.cookies": "Ce site web utilise des cookies !",
     "footer.cookies.accept": "Accepter",
+  },
+  es: {
+    "head.title": "Editor de Títulos de Actualización de Minecraft",
+    "head.description":
+      "La mejor herramienta para crear y generar tus propios logos de actualización de Minecraft en 3D con fuentes y texturas personalizadas, pareciéndose mucho a los oficiales.",
+
+    "editor.top": "Arriba",
+    "editor.middle": "Medio",
+    "editor.bottom": "Abajo",
+    "editor.save": "Guardar",
+    "editor.eula.agree":
+      "Acepto el [EULA de Mojang](https://www.minecraft.net/en-us/eula)",
+    "editor.fonts": "Fuentes",
+    "editor.textures": "Texturas",
+
+    "footer.text":
+      "© 2024 JaajCorp, Todos los derechos reservados. No estamos afiliados a Mojang.",
+    "footer.links.privacy": "Política de privacidad",
+
+    "footer.cookies": "¡Este sitio web utiliza cookies!",
+    "footer.cookies.accept": "Aceptar",
   },
 } as const;
