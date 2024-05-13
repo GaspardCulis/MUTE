@@ -3,6 +3,7 @@ export const locales = {
   en: "en-US",
   fr: "fr-FR",
   es: "es-ES",
+  de: "de-DE",
 };
 
 export const ui = {
@@ -68,5 +69,26 @@ export const ui = {
 
     "footer.cookies": "¡Este sitio web utiliza cookies!",
     "footer.cookies.accept": "Aceptar",
+  },
+  de: {
+    "head.title": "Minecraft Update-Titel-Editor",
+    "head.description":
+      "Das beste Tool, um Ihre eigenen 3D-Minecraft-Update-Logos mit benutzerdefinierten Schriftarten und Texturen zu erstellen und zu generieren, die genauso aussehen wie die offiziellen.",
+
+    "editor.top": "Oben",
+    "editor.middle": "Mitte",
+    "editor.bottom": "Unten",
+    "editor.save": "Speichern",
+    "editor.eula.agree":
+      "Ich stimme der [Mojang-EULA](https://www.minecraft.net/en-us/eula) zu.",
+    "editor.fonts": "Schriftarten",
+    "editor.textures": "Texturen",
+
+    "footer.text":
+      "© 2024 JaajCorp, Alle Rechte vorbehalten. Wir sind nicht mit Mojang verbunden.",
+    "footer.links.privacy": "Datenschutzrichtlinie",
+
+    "footer.cookies": "Diese Website verwendet Cookies!",
+    "footer.cookies.accept": "Akzeptieren",
   },
 } as const;
