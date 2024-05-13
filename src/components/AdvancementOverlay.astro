@@ -35,6 +35,7 @@
 
     const h = document.createElement("h1");
     h.innerText = params.title;
+    h.style.whiteSpace = "nowrap";
     vbox.appendChild(h);
 
     if (params.children) params.children.forEach((e) => vbox.appendChild(e));

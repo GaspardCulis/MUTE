@@ -2,6 +2,7 @@
   all: unset;
   line-height: 24px;
   margin-top: 3px;
+  margin-right: 8px;
   color: yellow;
 }
 
@@ -28,7 +29,6 @@
 /* Generated using https://pixelcorners.lukeb.co.uk */
 
 .advancement.external-corner {
-  width: 320px;
   height: 72px;
 
   padding: 6px;

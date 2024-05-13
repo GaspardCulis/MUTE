@@ -66,6 +66,10 @@ const t = useTranslations(lang);
 </Layout>
 <script>
 	import Editor from "../lib/Editor";
+	import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+	const lang = getLangFromUrl(new URL(document.URL));
+	const t = useTranslations(lang);
 
 	const editor = Editor.get();
 	const save_form = document.querySelector("#save-form") as HTMLFormElement;
@@ -83,7 +87,7 @@ const t = useTranslations(lang);
 		if (localStorage.getItem("cookies:accepted")) return;
 
 		const acceptButton = document.createElement("a");
-		acceptButton.innerText = "Accept";
+		acceptButton.innerText = t("footer.cookies.accept");
 		acceptButton.href = "#";
 		acceptButton.onclick = () => {
 			localStorage.setItem("cookies:accepted", "oh yeah baby");
@@ -92,7 +96,7 @@ const t = useTranslations(lang);
 		acceptButton.style.color = "cyan";
 
 		window.pushAdvancement("cookies", {
-			title: "This website uses cookies!",
+			title: t("footer.cookies"),
 			icon: "/img/cookie.png",
 			children: [acceptButton],
 		});
