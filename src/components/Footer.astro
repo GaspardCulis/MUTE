@@ -1,12 +1,15 @@
 ---
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
 <footer>
   <div>
-    © 2024 JaajCorp, All rights reserved. We are not affiliate with Mojang. <a
-      href="/privacy"
-      style="display: inline; color: inherit">Privacy Policy.</a
+    {t("footer.text")}
+    <a href={`/${lang}/privacy/`} style="display: inline; color: inherit"
+      >{t("footer.links.privacy")}</a
     >
   </div>
   <a href="https://github.com/GaspardCulis/MUTE">
