@@ -1,4 +1,6 @@
 ---
+import { marked } from "marked";
+
 import FontRadioButton from "../components/editor/FontRadioButton.astro";
 import BackgroundSkybox from "../components/BackgroundSkybox.astro";
 import TitleRowEdit from "../components/editor/TitleRowEdit.astro";
@@ -12,50 +14,48 @@ import Checkbox from "../components/Checkbox.astro";
 
 import Fonts from "../../public/title-fonts/fonts.json";
 import AdvancementOverlay from "../components/AdvancementOverlay.astro";
+
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
 ---
 
-<Layout
-	title="Minecraft Update Title Editor"
-	description="The best tool to create and generate your own 3D Minecraft update logos with custom fonts and textures, looking just like the official ones."
->
+<Layout title={t("head.title")} description={t("head.description")}>
 	<BackgroundSkybox />
 	<AdvancementOverlay />
 	<main>
 		<TitleView />
 		<section id="editor">
 			<EditorPanel width={3} widthS={2}>
-				<h1>Top</h1>
+				<h1>{t("editor.top")}</h1>
 				<TitleRowEdit row_id="title.top" selected />
 
-				<h1>Middle</h1>
+				<h1>{t("editor.middle")}</h1>
 				<TitleRowEdit row_id="title.middle" />
 
-				<h1>Bottom</h1>
+				<h1>{t("editor.bottom")}</h1>
 				<TitleRowEdit row_id="title.bottom" />
 			</EditorPanel>
 			<EditorPanel width={2} widthS={2}>
-				<h1>Save</h1>
+				<h1>{t("editor.save")}</h1>
 				<form id="save-form">
-					<Checkbox id="eula-checkbox" required
-						><p>
-							I agree to <a
-								href="https://www.minecraft.net/en-us/eula"
-								target="_blank"
-								style="color: inherit;">Mojang's EULA</a
-							>
-						</p></Checkbox
-					>
-					<SubmitButton id="save-button">Save</SubmitButton>
+					<Checkbox
+						id="eula-checkbox"
+						required
+						set:html={marked.parse(t("editor.eula.agree"))}
+					/>
+					<SubmitButton id="save-button">{t("editor.save")}</SubmitButton>
 				</form>
 			</EditorPanel>
 			<EditorPanel width={2} widthS={1}>
-				<h1>Fonts</h1>
+				<h1>{t("editor.fonts")}</h1>
 				<div id="fonts-list">
 					{Fonts.map((font) => <FontRadioButton font_id={font.id} />)}
 				</div>
 			</EditorPanel>
 			<EditorPanel width={3} widthS={1}>
-				<h1>Textures</h1>
+				<h1>{t("editor.textures")}</h1>
 				<TexturesList />
 			</EditorPanel>
 			<EditorPanel width={5} widthS={2}>
@@ -158,5 +158,10 @@ import AdvancementOverlay from "../components/AdvancementOverlay.astro";
 		#editor {
 			width: 50%;
 		}
+	}
+</style>
+<style is:global>
+	#save-form a {
+		color: inherit;
 	}
 </style>
