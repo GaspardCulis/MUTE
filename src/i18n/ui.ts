@@ -4,6 +4,7 @@ export const locales = {
   fr: "fr-FR",
   es: "es-ES",
   de: "de-DE",
+  zh: "zh-CN",
 };
 
 export const ui = {
@@ -90,5 +91,25 @@ export const ui = {
 
     "footer.cookies": "Diese Website verwendet Cookies!",
     "footer.cookies.accept": "Akzeptieren",
+  },
+  zh: {
+    "head.title": "Minecraft更新标题编辑器",
+    "head.description":
+      "最好的工具之一，用于使用自定义字体和纹理创建和生成您自己的3D Minecraft更新日志，看起来与官方版本完全相同。",
+
+    "editor.top": "顶部",
+    "editor.middle": "中间",
+    "editor.bottom": "底部",
+    "editor.save": "保存",
+    "editor.eula.agree":
+      "我同意[Mojang的EULA](https://www.minecraft.net/en-us/eula)。",
+    "editor.fonts": "字体",
+    "editor.textures": "材质",
+
+    "footer.text": "© 2024 JaajCorp，保留所有权利。我们与Mojang无关。",
+    "footer.links.privacy": "隐私政策",
+
+    "footer.cookies": "此网站使用Cookies！",
+    "footer.cookies.accept": "接受",
   },
 } as const;
