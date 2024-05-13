@@ -1,16 +1,21 @@
 ---
 import { SEO } from "astro-seo";
 
+import { getLangFromUrl } from "../i18n/utils";
+import { locales } from "../i18n/ui";
+
 interface Props {
 	title: string;
 	description: string;
 }
 
 const { title, description } = Astro.props;
+
+const lang = locales[getLangFromUrl(Astro.url)];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
