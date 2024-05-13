@@ -20,7 +20,7 @@ export const ui = {
     "editor.textures": "Textures",
 
     "footer.text":
-      "2024 JaajCorp, All rights reserved. We are not affiliate with Mojang.",
+      "© 2024 JaajCorp, All rights reserved. We are not affiliate with Mojang.",
     "footer.links.privacy": "Privacy Policy",
 
     "footer.cookies": "This website uses cookies!",
@@ -41,8 +41,8 @@ export const ui = {
     "editor.textures": "Textures",
 
     "footer.text":
-      "2024 JaajCorp, Tous droits réservés. Nous ne sommes pas affiliés à Mojang.",
-    "footer.links.privacy": "Politique de confidentialité",
+      "© 2024 JaajCorp, Tous droits réservés. Nous ne sommes pas affiliés à Mojang.",
+    "footer.links.privacy": "Politique de confidentialite",
 
     "footer.cookies": "Ce site web utilise des cookies !",
     "footer.cookies.accept": "Accepter",
