@@ -1,5 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations } from "../i18n/utils";
+import ContactObfuscator from "./ContactObfuscator.astro";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -10,6 +11,9 @@ const t = useTranslations(lang);
     {t("footer.text")}
     <a href={`/${lang}/privacy/`} style="display: inline; color: inherit"
       >{t("footer.links.privacy")}</a
+    >
+    <ContactObfuscator href="mailto:gasdev.lp@gmail.com"
+      >{t("footer.links.contact")}</ContactObfuscator
     >
   </div>
   <a href="https://github.com/GaspardCulis/MUTE">

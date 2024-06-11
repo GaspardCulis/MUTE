@@ -26,7 +26,7 @@ export const ui = {
     "footer.text":
       "© 2024 JaajCorp, All rights reserved. We are not affiliate with Mojang.",
     "footer.links.privacy": "Privacy Policy",
-
+    "footer.links.contact": "Contact",
     "footer.cookies": "This website uses cookies!",
     "footer.cookies.accept": "Accept",
   },
@@ -47,7 +47,7 @@ export const ui = {
     "footer.text":
       "© 2024 JaajCorp, Tous droits réservés. Nous ne sommes pas affiliés à Mojang.",
     "footer.links.privacy": "Politique de confidentialite",
-
+    "footer.links.contact": "Contact",
     "footer.cookies": "Ce site web utilise des cookies !",
     "footer.cookies.accept": "Accepter",
   },
@@ -68,7 +68,7 @@ export const ui = {
     "footer.text":
       "© 2024 JaajCorp, Todos los derechos reservados. No estamos afiliados a Mojang.",
     "footer.links.privacy": "Política de privacidad",
-
+    "footer.links.contact": "Contacto",
     "footer.cookies": "¡Este sitio web utiliza cookies!",
     "footer.cookies.accept": "Aceptar",
   },
@@ -89,7 +89,7 @@ export const ui = {
     "footer.text":
       "© 2024 JaajCorp, Alle Rechte vorbehalten. Wir sind nicht mit Mojang verbunden.",
     "footer.links.privacy": "Datenschutzrichtlinie",
-
+    "footer.links.contact": "Kontakt",
     "footer.cookies": "Diese Website verwendet Cookies!",
     "footer.cookies.accept": "Akzeptieren",
   },
@@ -109,7 +109,7 @@ export const ui = {
 
     "footer.text": "© 2024 JaajCorp，保留所有权利。我们与Mojang无关。",
     "footer.links.privacy": "隐私政策",
-
+    "footer.links.contact": "联系我们",
     "footer.cookies": "此网站使用Cookies！",
     "footer.cookies.accept": "接受",
   },
@@ -130,7 +130,7 @@ export const ui = {
     "footer.text":
       "© 2024 JaajCorp, Todos os direitos reservados. Não estamos afiliados à Mojang.",
     "footer.links.privacy": "Política de Privacidade",
-
+    "footer.links.contact": "Contato",
     "footer.cookies": "Este site usa cookies!",
     "footer.cookies.accept": "Aceitar",
   },
